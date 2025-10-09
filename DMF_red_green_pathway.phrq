@@ -1,0 +1,95 @@
+TITLE  Fate of DMF in the SAnMBR reactor with data from Kong et al. (2019)
+
+
+SOLUTION_MASTER_SPECIES
+Dmf           Dmf              0       Dmf             73.09  
+Dma           Dma              0       Dma             45
+Mma           Mma              0       Mma             31
+Form          Form             0       Form         45
+Formaldehyde  Formaldehyde     0       Formaldehyde    30
+
+
+
+SOLUTION_SPECIES
+Dmf = Dmf
+    log_k     0
+Dma = Dma
+    log_k     0
+Mma = Mma 
+    log_k     0
+Form = Form
+    log_k     0
+Formaldehyde = Formaldehyde
+    log_k     0
+
+
+#---------------------------------------#
+# ambient water in the experiemnt? 
+#---------------------------------------#
+
+SOLUTION 
+    temp      15
+    pH        7.77
+    pe        -1.87
+    redox     pe
+    units     mmol/kgw
+    density   1
+    Alkalinity 9.51
+    Dmf       95.94 mg/kgw
+    -water    1 # kg 
+
+
+##################   KINETICS   #####################
+KINETICS 
+
+
+Dmf_Dma
+    -formula  Dmf -1 Dma 1 H20 2 H+ 3 Form 1
+    # K1 = mol / day 
+    -parms     0.7
+    -steps  0 30*0.1          #30 days in 300 time steps?
+
+Dma_Mma
+    -formula Dma  -1 Mma  1 Formaldehyde 1
+    # K2 = mol / day 
+     -parms    0.7     
+
+
+
+RATES
+##############################OC release##############################
+
+Dmf_Dma
+-start
+01 mDmf       = tot("Dmf")
+03 rate       = parm(1)*mDmf
+10 moles      = rate *time
+15 put(rate,01)
+20 SAVE moles
+-end
+
+Dma_Mma
+-start
+01 mDma       = tot("Dma")
+03 rate       = parm(1)*mDma
+10 moles      = rate *time
+15 put(rate,02)
+20 SAVE moles
+-end
+
+SELECTED_OUTPUT
+	-file output/DMF.sel
+	-time true
+	-reset false
+
+USER_PUNCH
+
+    -headings Time pH	pe	DMF DMA MMA Formaldehyde Formate rate_Dmf_Dma rate_Dma_Mma
+	-start
+
+10 	PUNCH TOTAL_TIME
+20  PUNCH - la("H+") 
+30  PUNCH - la("e-") 
+40  PUNCH  tot("Dmf") tot("Dma")   tot("Mma")   tot("Formaldehyde")  tot("Form")  
+50  PUNCH  get(01) get(02) 
+    -end

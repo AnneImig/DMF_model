@@ -1,0 +1,59 @@
+pcf
+* control data
+restart estimation
+3 21 3 0 3
+1 3 single point 1 0 0 
+10 -3 0.3 0.01 10 0 lamforgive noderforgive 
+10 10 0.001 
+0.1 1 noaui 
+50 0.0005 4 4 0.0005 4 
+0 0 0 verboserec NOJCOSAVEITN REISAVEITN NOPARSAVEITN 
+* singular value decomposition
+1
+3 5e-7
+0
+* parameter groups
+DmfDma  relative 0.01 0.0 switch 2.0 parabolic
+DmaMma relative 0.01 0.0 switch 2.0 parabolic
+MmaNH3 relative 0.01 0.0 switch 2.0 parabolic
+* parameter data
+DmfDma none relative 0.370 0.27 0.1 DmfDma 1.0 0.0 1
+DmaMma none relative 0.091 0.0005 0.2 DmaMma 1.0 0.0 1
+MmaNH3 none relative 5 1 5 MmaNH3 1.0 0.0 1
+* observation groups
+gDmf     
+gDma    
+gMma   
+* observation data
+DMF_0 0.08209057326583664 0.57 gDmf
+DMF_1 0.07524969216035025 0.57 gDmf
+DMF_2 0.04378163907511287 0.57 gDmf
+DMF_3 0.0300998768641401 0.57 gDmf
+DMF_4 0.019154467095361883 0.57 gDmf
+DMF_5 0.019154467095361883 0.57 gDmf
+DMF_6 0.019154467095361883 0.57 gDmf
+DMA_0 0.0 3.47 gDma
+DMA_1 0.01774622892635315 3.47 gDma
+DMA_2 0.02883762200532387 3.47 gDma
+DMA_3 0.0354924578527063 3.47 gDma
+DMA_4 0.03992901508429459 3.47 gDma
+DMA_5 0.044365572315882874 3.47 gDma
+DMA_6 0.03992901508429459 3.47 gDma
+MMA_0 0.0 1 gMma
+MMA_1 0.003219575016097875 1 gMma
+MMA_2 0.009658725048293626 1 gMma
+MMA_3 0.016097875080489377 1 gMma
+MMA_4 0.025756600128783 1 gMma
+MMA_5 0.022537025112685124 1 gMma
+MMA_6 0.028976175144880875 1 gMma
+* model command line
+python R2_Run_PHQ.py 
+ * model input/output
+Swaroop_First.tpl Swaroop_First.phrq
+DMF.ins output/DMF.sel
+DMA.ins  output/DMA.sel
+DMF.ins  output/DMF.sel
+MMA.ins   output/MMA.sel
+++ies_num_reals(200)
+++ies_lambda_mults(1.2)
+++ies_bad_phi(0.00075)

@@ -1,0 +1,64 @@
+pcf
+* control data
+restart estimation
+3 27 3 0 3
+1 3 single point 1 0 0 
+10 -3 0.3 0.01 10 0 lamforgive noderforgive 
+10 10 0.001 
+0.1 1 noaui 
+50 0.0005 4 4 0.0005 4 
+0 0 0 verboserec NOJCOSAVEITN REISAVEITN NOPARSAVEITN 
+* singular value decomposition
+1
+3 5e-7
+0
+* parameter groups
+DmfDma  relative 0.01 0.0 switch 2.0 parabolic
+DmaMma relative 0.01 0.0 switch 2.0 parabolic
+MmaNH3 relative 0.01 0.0 switch 2.0 parabolic
+* parameter data
+DmfDma none relative 0.270 0.1 0.6 DmfDma 1.0 0.0 1
+DmaMma none relative 0.091 0.0005 0.2 DmaMma 1.0 0.0 1
+MmaNH3 none relative 3 1 5 MmaNH3 1.0 0.0 1
+* observation groups
+gDmf     
+gDma    
+gNH3    
+* observation data
+DMF_0 0.005472704884389109 0.57 gDmf
+DMF_1 0.004788616773840471 0.57 gDmf
+DMF_2 0.0028731700643042824 0.57 gDmf
+DMF_3 0.0010945409768778219 0.57 gDmf
+DMF_4 0.0005472704884389109 0.57 gDmf
+DMF_5 6.840881105486387e-05 0.57 gDmf
+DMF_6 0.0 0.57 gDmf
+DMF_7 0.0 0.57 gDmf
+DMF_8 0.0 0.57 gDmf
+DMA_0 0.0 3.47 gDma
+DMA_1 0.0006654835847382431 3.47 gDma
+DMA_2 0.001774622892635315 3.47 gDma
+DMA_3 0.003105590062111801 3.47 gDma
+DMA_4 0.0033274179236912156 3.47 gDma
+DMA_5 0.0016637089618456078 3.47 gDma
+DMA_6 0.0006654835847382431 3.47 gDma
+DMA_7 0.0006211180124223603 3.47 gDma
+DMA_8 0.0005989352262644189 3.47 gDma
+NH3_0 0.0 1 gNH3
+NH3_1 0.00011764705882352942 1 gNH3
+NH3_2 0.000588235294117647 1 gNH3
+NH3_3 0.0017647058823529412 1 gNH3
+NH3_4 0.0029411764705882353 1 gNH3
+NH3_5 0.0035294117647058825 1 gNH3
+NH3_6 0.00411764705882353 1 gNH3
+NH3_7 0.003823529411764706 1 gNH3
+NH3_8 0.0035294117647058825 1 gNH3
+* model command line
+python R2_Run_PHQ.py 
+ * model input/output
+Swaroop_First.tpl Swaroop_First.phrq
+DMA.ins  output/DMA.sel
+DMF.ins  output/DMF.sel
+NH3.ins   output/NH3.sel
+++ies_num_reals(200)
+++ies_lambda_mults(1.2)
+++ies_bad_phi(0.00035)

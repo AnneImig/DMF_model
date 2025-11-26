@@ -1,0 +1,220 @@
+time,elapsed_seconds,message
+2025-11-25 17:11:03,0.000125,PEST++ performance logger started
+2025-11-25 17:11:03,0.000571,starting to process control file
+2025-11-25 17:11:03,0.001358,finished processing control file
+2025-11-25 17:11:03,0.000884,starting basic model IO error checking
+2025-11-25 17:11:03,0.001532,finished basic model IO error checking
+2025-11-25 17:11:03,0.001159,initializing
+2025-11-25 17:11:03,0.000469,using glm algorithm
+2025-11-25 17:11:03,2.7e-05,using REDSVD for truncated svd solve
+2025-11-25 17:11:03,7.5e-05,maxsing: 3
+2025-11-25 17:11:03,1.2e-05,eigthresh:  5e-07
+2025-11-25 17:11:03,1e-05,initializing localizer
+2025-11-25 17:11:03,1.1e-05,not using localization
+2025-11-25 17:11:03,1e-05,using lambda multipliers: 
+2025-11-25 17:11:03,1.3e-05,using lambda scaling factors: 
+2025-11-25 17:11:03,1e-05,acceptable phi factor:  1.05
+2025-11-25 17:11:03,1e-05,lambda increase factor:  10
+2025-11-25 17:11:03,1e-05,lambda decrease factor:  0.75
+2025-11-25 17:11:03,9e-06,max run fail:  1
+2025-11-25 17:11:03,0.000185,sanity_check warnings
+2025-11-25 17:11:03,1.7e-05,noptmax > 15, this is a lot of iterations for an ensemble method...
+2025-11-25 17:11:03,1e-05,continuing initialization...
+2025-11-25 17:11:03,7e-05,initializing prior parameter covariance matrix
+2025-11-25 17:11:03,7e-06,initializing parcov
+2025-11-25 17:11:03,0.000573,parcov loaded  from parameter bounds, using par_sigma_range 4
+2025-11-25 17:11:03,0.000133,initializing observation noise covariance matrix
+2025-11-25 17:11:03,3.9e-05,obscov loaded  from observation weights
+2025-11-25 17:11:03,3.2e-05,using reg_factor:  0
+2025-11-25 17:11:03,5.9e-05,using bad_phi:  0.00035
+2025-11-25 17:11:03,1.2e-05,drawing parameter realizations:  200
+2025-11-25 17:11:03,0.000209,making standard normal draws
+2025-11-25 17:11:03,2.8e-05,scaling by std
+2025-11-25 17:11:03,6e-06,checking realization for invalid values
+2025-11-25 17:11:03,2.1e-05,resizing reals matrix
+2025-11-25 17:11:03,8e-06,filling reals matrix and adding mean values
+2025-11-25 17:11:03,8.3e-05,not using prior parameter covariance matrix scaling
+2025-11-25 17:11:03,1.6e-05,NOTE: no obs-noise-specific options have been passed, resetting to `ies_no_noise` to true
+2025-11-25 17:11:03,1e-05,initializing no-noise observation ensemble of :  200
+2025-11-25 17:11:03,0.000245,setting weights ensemble from control file weights
+2025-11-25 17:11:03,0.00617,saved weight ensemble to  control.weights.csv
+2025-11-25 17:11:03,1e-05,checking for denormal values in weights ensemble
+2025-11-25 17:11:03,1.9e-05,adding 'base' parameter values to ensemble
+2025-11-25 17:11:03,0.000144,adding 'base' observation values to ensemble
+2025-11-25 17:11:03,0.000101,adding 'base' weight values to weight ensemble
+2025-11-25 17:11:03,0.000185,checking for denormal values in pe
+2025-11-25 17:11:03,0.001012,saved initial parameter ensemble to  control.0.par.csv
+2025-11-25 17:11:03,8e-06,checking for denormal values in obs + noise ensemble
+2025-11-25 17:11:03,0.006725,saved obs+noise observation ensemble (obsval + noise realizations) to  control.obs+noise.csv
+2025-11-25 17:11:03,1e-05,using subset in lambda testing, percentage of realizations used in subset testing:  10
+2025-11-25 17:11:03,8e-06,subset how:  RANDOM
+2025-11-25 17:11:03,8.9e-05,centering on ensemble mean vector
+2025-11-25 17:11:03,7e-06,running initial ensemble
+2025-11-25 17:11:03,1.1e-05,running initial ensemble of size 200
+2025-11-25 17:11:03,9e-06,queuing 200 runs
+2025-11-25 17:11:03,0.002668,making runs
+2025-11-25 17:11:33,29.4558,processing runs
+2025-11-25 17:11:33,0.007377,saved initial obs ensemble to control.0.obs.csv
+2025-11-25 17:11:33,0.000805,calc pre-drop phi
+2025-11-25 17:11:33,0.000981,pre-drop initial phi summary
+2025-11-25 17:11:33,0.000681,checking for prior-data conflict
+2025-11-25 17:11:33,0.000103,WARNING: 6 non-zero weighted observations are in conflict with the prior simulated ensemble.
+
+2025-11-25 17:11:33,1.6e-05,  WARNING: Prior-data conflict detected.  Continuing with IES parameter
+           adjustment will likely result in parameter and forecast bias.
+
+2025-11-25 17:11:33,0.000323,dropping realizations as bad:  30
+2025-11-25 17:11:33,2.3e-05,dropping par:obs realizations: 4 : 4 , 9 : 9 , 18 : 18 , 26 : 26 , 35 : 35 , 42 : 42 , 51 : 51 , 52 : 52 , 71 : 71 , 75 : 75 , 81 : 81 , 89 : 89 , 92 : 92 , 110 : 110 , 116 : 116 , 124 : 124 , 130 : 130 , 133 : 133 , 138 : 138 , 139 : 139 , 145 : 145 , 149 : 149 , 150 : 150 , 151 : 151 , 155 : 155 , 158 : 158 , 174 : 174 , 185 : 185 , 188 : 188 , 197 : 197 , 
+2025-11-25 17:11:33,0.004437,saved adjusted weight ensemble to  control.adjusted.weights.csv
+2025-11-25 17:11:33,0.000558,calc initial phi
+2025-11-25 17:11:33,0.000447,initial phi summary
+2025-11-25 17:11:33,0.00106,current lambda: 1e-06
+2025-11-25 17:11:33,1.1e-05,initialization complete
+2025-11-25 17:11:33,3.1e-05,starting solve for iteration: 1
+2025-11-25 17:11:33,7e-06,starting solve for iteration: 1
+2025-11-25 17:11:33,1e-05,current lambda:  1e-06
+2025-11-25 17:11:33,1.8e-05,subset defined as a percentage of ensemble size, using 17 realizations for subset
+
+2025-11-25 17:11:33,5e-06,reordering variables in pe
+2025-11-25 17:11:33,1.4e-05,resizing weight ensemble from 200 realizations to 170 realizations
+2025-11-25 17:11:33,0.000544,preparing EnsembleSolver
+2025-11-25 17:11:33,4.4e-05,starting calcs for glm factor 1.2e-06
+2025-11-25 17:11:33,7e-06,see .log file for more details
+2025-11-25 17:11:33,0.000864,finished calcs for: 1.2e-06
+2025-11-25 17:11:33,1.1e-05,running upgrade ensembles
+2025-11-25 17:11:33,1.3e-05,queuing 3 ensembles
+2025-11-25 17:11:33,0.000114,subset idx:pe real name:  0:0, 2:2, 22:25, 24:28, 43:49, 49:57, 64:73, 66:76, 74:85, 86:99, 117:135, 120:140, 133:159, 136:162, 155:182, 167:196, 169:BASE, 
+2025-11-25 17:11:33,1.2e-05,subset idx:oe real name:  0:0, 2:2, 22:25, 24:28, 43:49, 49:57, 64:73, 66:76, 74:85, 86:99, 117:135, 120:140, 133:159, 136:162, 155:182, 167:196, 169:BASE, 
+2025-11-25 17:11:33,0.000526,making runs
+2025-11-25 17:11:40,7.69183,processing runs
+2025-11-25 17:11:40,0.001252,evaluating upgrade ensembles
+2025-11-25 17:11:40,1.5e-05,last mean:  0.000123443
+2025-11-25 17:11:40,1e-05,last stdev:  6.67132e-05
+2025-11-25 17:11:40,0.00035,phi summary for lambda, scale fac:
+2025-11-25 17:11:40,0.000323,phi summary for lambda, scale fac:
+2025-11-25 17:11:40,0.0003,phi summary for lambda, scale fac:
+2025-11-25 17:11:40,9.8e-05,phi summary for best lambda, scale fac: 
+2025-11-25 17:11:40,0.000197,running remaining realizations for best lambda, scale:
+2025-11-25 17:11:40,5e-06,dropping subset idxs from remaining_pe_lam
+2025-11-25 17:11:40,7.5e-05,dropping subset idxs from remaining_oe_lam
+2025-11-25 17:11:40,9.3e-05,queuing 153 runs
+2025-11-25 17:11:40,0.001368,making runs
+2025-11-25 17:12:03,22.4472,processing runs
+2025-11-25 17:12:03,0.001267,assembling ensembles
+2025-11-25 17:12:03,0.000401,updating phi
+2025-11-25 17:12:03,0.000556,phi summary for entire ensemble using lambda,scale_fac 
+2025-11-25 17:12:03,0.000457,last best mean phi * acceptable phi factor:  0.000129615
+2025-11-25 17:12:03,1.3e-05,current best mean phi:  0.000123436
+2025-11-25 17:12:03,1.1e-05,updating parameter ensemble
+2025-11-25 17:12:03,6e-06,updating parameter ensemble
+2025-11-25 17:12:03,3.1e-05,updating lambda to  9e-07
+2025-11-25 17:12:03,0.00825,phi-based termination criteria check
+2025-11-25 17:12:03,1.1e-05,phiredstp:  0.0005
+2025-11-25 17:12:03,8e-06,nphistp:  4
+2025-11-25 17:12:03,9e-06,nphinored (also used for consecutive bad lambda cycles):  4
+2025-11-25 17:12:03,9e-06,best mean phi sequence: 
+2025-11-25 17:12:03,9e-06,best phi yet:  0.000123436
+2025-11-25 17:12:03,8e-06,number of consecutive bad lambda testing cycles:  0
+2025-11-25 17:12:03,8e-06,number of iterations satisfying phiredstp criteria:  2
+2025-11-25 17:12:03,8e-06,number of iterations since best yet mean phi:  0
+2025-11-25 17:12:03,1e-05,starting solve for iteration: 2
+2025-11-25 17:12:03,5e-06,starting solve for iteration: 2
+2025-11-25 17:12:03,8e-06,current lambda:  9e-07
+2025-11-25 17:12:03,1.1e-05,subset defined as a percentage of ensemble size, using 17 realizations for subset
+
+2025-11-25 17:12:03,6e-06,reordering variables in pe
+2025-11-25 17:12:03,2.3e-05,preparing EnsembleSolver
+2025-11-25 17:12:03,2.6e-05,starting calcs for glm factor 1.08e-06
+2025-11-25 17:12:03,6e-06,see .log file for more details
+2025-11-25 17:12:03,0.000588,finished calcs for: 1.08e-06
+2025-11-25 17:12:03,1e-05,running upgrade ensembles
+2025-11-25 17:12:03,5e-06,queuing 3 ensembles
+2025-11-25 17:12:03,0.000151,subset idx:pe real name:  0:0, 2:25, 6:73, 10:135, 16:BASE, 20:6, 22:8, 40:31, 58:54, 68:65, 76:77, 82:84, 96:102, 99:105, 100:106, 115:123, 153:177, 
+2025-11-25 17:12:03,1e-05,subset idx:oe real name:  0:0, 2:25, 6:73, 10:135, 16:BASE, 20:6, 22:8, 40:31, 58:54, 68:65, 76:77, 82:84, 96:102, 99:105, 100:106, 115:123, 153:177, 
+2025-11-25 17:12:03,0.000513,making runs
+2025-11-25 17:12:11,7.82456,processing runs
+2025-11-25 17:12:11,0.001024,evaluating upgrade ensembles
+2025-11-25 17:12:11,1.3e-05,last mean:  0.000123436
+2025-11-25 17:12:11,1e-05,last stdev:  6.67034e-05
+2025-11-25 17:12:11,0.000346,phi summary for lambda, scale fac:
+2025-11-25 17:12:11,0.000442,phi summary for lambda, scale fac:
+2025-11-25 17:12:11,0.000288,phi summary for lambda, scale fac:
+2025-11-25 17:12:11,5.9e-05,best subset mean phi  (0.000138799) greater than acceptable phi : 0.000129608
+2025-11-25 17:12:11,0.000445,updating realizations with reduced phi
+2025-11-25 17:12:11,0.000624,updating pe:oe real =0:0, current phi: new phi  =8.45274e-05:8.45263e-05
+2025-11-25 17:12:11,1.2e-05,updating pe:oe real =25:25, current phi: new phi  =0.000118717:0.000118716
+2025-11-25 17:12:11,8e-06,updating pe:oe real =73:73, current phi: new phi  =7.91638e-05:7.91635e-05
+2025-11-25 17:12:11,8e-06,updating pe:oe real =135:135, current phi: new phi  =0.000147914:0.0001479
+2025-11-25 17:12:11,8e-06,updating pe:oe real =BASE:BASE, current phi: new phi  =7.66406e-05:7.66412e-05
+2025-11-25 17:12:11,7e-06,updating pe:oe real =6:6, current phi: new phi  =0.000156471:0.000156462
+2025-11-25 17:12:11,8e-06,updating pe:oe real =8:8, current phi: new phi  =0.00023748:0.000237452
+2025-11-25 17:12:11,7e-06,updating pe:oe real =31:31, current phi: new phi  =0.000103561:0.000103557
+2025-11-25 17:12:11,8e-06,updating pe:oe real =54:54, current phi: new phi  =6.78832e-05:6.78809e-05
+2025-11-25 17:12:11,8e-06,updating pe:oe real =65:65, current phi: new phi  =0.000102401:0.0001024
+2025-11-25 17:12:11,8e-06,updating pe:oe real =77:77, current phi: new phi  =0.000122893:0.000122893
+2025-11-25 17:12:11,8e-06,updating pe:oe real =84:84, current phi: new phi  =8.19435e-05:8.19434e-05
+2025-11-25 17:12:11,9e-06,updating pe:oe real =102:102, current phi: new phi  =0.000115758:0.000115758
+2025-11-25 17:12:11,7e-06,updating pe:oe real =105:105, current phi: new phi  =0.000142787:0.000142782
+2025-11-25 17:12:11,8e-06,updating pe:oe real =106:106, current phi: new phi  =0.000246191:0.000246151
+2025-11-25 17:12:11,1.3e-05,updating pe:oe real =123:123, current phi: new phi  =0.000145476:0.000145476
+2025-11-25 17:12:11,8e-06,updating pe:oe real =177:177, current phi: new phi  =0.000329936:0.000329888
+2025-11-25 17:12:11,0.000777,current best mean phi (after updating reduced-phi reals):  0.000123435
+2025-11-25 17:12:11,1.1e-05,partial update improved phi stats, updating lambda to  8.1e-07
+2025-11-25 17:12:11,9e-06,returning to upgrade calculations...
+2025-11-25 17:12:11,0.007931,phi-based termination criteria check
+2025-11-25 17:12:11,1e-05,phiredstp:  0.0005
+2025-11-25 17:12:11,8e-06,nphistp:  4
+2025-11-25 17:12:11,7e-06,nphinored (also used for consecutive bad lambda cycles):  4
+2025-11-25 17:12:11,9e-06,best mean phi sequence: 
+2025-11-25 17:12:11,7e-06,best phi yet:  0.000123435
+2025-11-25 17:12:11,8e-06,number of consecutive bad lambda testing cycles:  1
+2025-11-25 17:12:11,7e-06,number of iterations satisfying phiredstp criteria:  3
+2025-11-25 17:12:11,7e-06,number of iterations since best yet mean phi:  0
+2025-11-25 17:12:11,1e-05,starting solve for iteration: 3
+2025-11-25 17:12:11,5e-06,starting solve for iteration: 3
+2025-11-25 17:12:11,7e-06,current lambda:  8.1e-07
+2025-11-25 17:12:11,7e-06,subset defined as a percentage of ensemble size, using 17 realizations for subset
+
+2025-11-25 17:12:11,8e-06,reordering variables in pe
+2025-11-25 17:12:11,1.7e-05,preparing EnsembleSolver
+2025-11-25 17:12:11,2.7e-05,starting calcs for glm factor 9.72e-07
+2025-11-25 17:12:11,6e-06,see .log file for more details
+2025-11-25 17:12:11,0.000581,finished calcs for: 9.72e-07
+2025-11-25 17:12:11,9e-06,running upgrade ensembles
+2025-11-25 17:12:11,6e-06,queuing 3 ensembles
+2025-11-25 17:12:11,9.2e-05,subset idx:pe real name:  16:BASE, 18:3, 21:7, 25:12, 30:17, 34:22, 41:32, 52:45, 66:63, 72:69, 73:70, 84:87, 87:91, 90:95, 99:105, 123:134, 139:161, 
+2025-11-25 17:12:11,1e-05,subset idx:oe real name:  16:BASE, 18:3, 21:7, 25:12, 30:17, 34:22, 41:32, 52:45, 66:63, 72:69, 73:70, 84:87, 87:91, 90:95, 99:105, 123:134, 139:161, 
+2025-11-25 17:12:11,0.00052,making runs
+2025-11-25 17:12:18,7.44439,processing runs
+2025-11-25 17:12:18,0.000769,evaluating upgrade ensembles
+2025-11-25 17:12:18,1.3e-05,last mean:  0.000123435
+2025-11-25 17:12:18,1.1e-05,last stdev:  6.67017e-05
+2025-11-25 17:12:18,0.00034,phi summary for lambda, scale fac:
+2025-11-25 17:12:18,0.00031,phi summary for lambda, scale fac:
+2025-11-25 17:12:18,0.000289,phi summary for lambda, scale fac:
+2025-11-25 17:12:18,9.2e-05,phi summary for best lambda, scale fac: 
+2025-11-25 17:12:18,0.000192,running remaining realizations for best lambda, scale:
+2025-11-25 17:12:18,6e-06,dropping subset idxs from remaining_pe_lam
+2025-11-25 17:12:18,9.4e-05,dropping subset idxs from remaining_oe_lam
+2025-11-25 17:12:18,8.8e-05,queuing 153 runs
+2025-11-25 17:12:18,0.001524,making runs
+2025-11-25 17:12:40,22.235,processing runs
+2025-11-25 17:12:40,0.001261,assembling ensembles
+2025-11-25 17:12:40,0.000419,updating phi
+2025-11-25 17:12:40,0.000574,phi summary for entire ensemble using lambda,scale_fac 
+2025-11-25 17:12:40,0.000469,last best mean phi * acceptable phi factor:  0.000129607
+2025-11-25 17:12:40,1.3e-05,current best mean phi:  0.000123429
+2025-11-25 17:12:40,1.1e-05,updating parameter ensemble
+2025-11-25 17:12:40,7e-06,updating parameter ensemble
+2025-11-25 17:12:40,2.8e-05,updating lambda to  7.29e-07
+2025-11-25 17:12:40,0.007822,phi-based termination criteria check
+2025-11-25 17:12:40,1e-05,phiredstp:  0.0005
+2025-11-25 17:12:40,9e-06,nphistp:  4
+2025-11-25 17:12:40,8e-06,nphinored (also used for consecutive bad lambda cycles):  4
+2025-11-25 17:12:40,1e-05,best mean phi sequence: 
+2025-11-25 17:12:40,8e-06,best phi yet:  0.000123429
+2025-11-25 17:12:40,8e-06,number of consecutive bad lambda testing cycles:  0
+2025-11-25 17:12:40,1.1e-05,number of iterations satisfying phiredstp criteria:  4
+2025-11-25 17:12:40,9e-06,number iterations satisfying phiredstp criteria > nphistp
+2025-11-25 17:12:40,7e-06,number of iterations since best yet mean phi:  0
+2025-11-25 17:12:40,7e-06,phi-based termination criteria satisfied, all done

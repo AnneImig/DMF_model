@@ -89,12 +89,44 @@ Mma_Ammonia
 15 put(rate,03)
 20 SAVE moles
 -end
+SELECTED_OUTPUT  1 # 1 by default
+  -file output/DMF.sel
+-reset false
+-totals DMF
 
+SELECTED_OUTPUT  2
+  -file output/MMA.sel
+-reset false
+-totals MMA
 
-SELECTED_OUTPUT
-	-file output/DMF.sel
+SELECTED_OUTPUT  3
+  -file output/DMA.sel
+-reset false
+-totals DMA
+
+SELECTED_OUTPUT  4
+  -file output/NH3.sel
+-reset false
+-molalities Amm
+
+SELECTED_OUTPUT 5
+   -file  output/Results.sel 
 	-time true
 	-reset false
+
+USER_PUNCH 5
+
+    -headings Time pH	pe	DMF DMA MMA Formaldehyde Formate Ammonia rate_Dmf_Dma rate_Dma_Mma rate_Mma_Ammonium
+	-start
+
+10 	PUNCH  time
+20  PUNCH - la("H+") 
+30  PUNCH - la("e-") 
+40  PUNCH  tot("Dmf") tot("Dma")   tot("Mma")   tot("Formaldehyde")  tot("Form")  MOL('Amm')
+50  PUNCH  get(01) get(02)  get(03) 
+    -end
+END
+
 
 USER_PUNCH
 

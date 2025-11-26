@@ -120,7 +120,6 @@ if SWAROOP==True: #mg/L
 df = pd.DataFrame(data)
 print(df)
 
-
 measured = pd.DataFrame(data)
 
 # Define molar masses in g/mol
@@ -386,23 +385,23 @@ def plot_modelled_DMF_species(observed_df):
     if FIRST and ZHOU:
         ax.set_title("Zhou et al. (2018) dataset", fontsize=18) 
         plt.savefig(os.path.join(plot_folder, 'R3_小_DMF_TPs_Zhou.png'), format='png')  
-        print('Saved as R3_DMF_species_Zhou.png')     
+        print('Saved as R3_小_DMF_TPs_Zhou.png')     
     elif FIRST and SWAROOP:
         ax.set_title("Swaroop et al. (2009) dataset", fontsize=18) 
         plt.savefig(os.path.join(plot_folder, 'R3_小_DMF_TPs_Swaroop.png'), format='png')   
-        print('Saved as R3_DMF_species_Swaroop.png')     
+        print('Saved as R3_小_DMF_TPs_Swaroop.png')     
     elif BIOMASS and ZHOU:
         ax.set_title("Zhou et al. (2018) dataset", fontsize=18) 
         plt.savefig(os.path.join(plot_folder, 'R3_小_DMF_TPs_Biomass_Zhou.png'), format='png')   
-        print('Saved as R3_DMF_species_Biomass_Zhou.png') 
+        print('Saved as R3_小_DMF_TPs_Biomass_Zhou.png') 
     elif BIOMASS and SWAROOP:
         ax.set_title("Swaroop et al. (2009) dataset", fontsize=18) 
         plt.savefig(os.path.join(plot_folder, 'R3_小_DMF_TPs_Biomass_Swaroop.png'), format='png') 
-        print('Saved as R3_DMF_species_Biomass_Swaroop.png') 
+        print('Saved asR3_小_DMF_TPs_Biomass_Swaroop.png') 
 
 
 
 # --- Call plot ---
 if PLOT:
     plot_modelled_DMF_species(measured)
-    #plot_modelled(measured)
+    plot_modelled(measured)

@@ -44,9 +44,9 @@ ZHOU=config.getboolean("dataset", "ZHOU", fallback=True)
 #Parameter for the model 
 
 if ZHOU ==True:
-    params = [0.027, 0.013, 0.001]
+    params = [0.037, 0.013, 0.001]
 elif SWAROOP== True:  
-    params = [0.2, 0.091, 1]
+    params = [0.37, 0.091, 5]
 else:
     print("No Parameterlist chosen.")
 

@@ -107,26 +107,30 @@ if "NH3" in measured.columns:
 
 
 
-def create_c_ins_file(series, script_dir):
+def create_ins_file(series,name,line, script_dir):
     obs_labels = ''
     for idx, _ in series.items():
-        obs_label = f'l{2 if idx == 0 else 1} [C_{idx}]42:51\n' # maybe -1?
+        obs_label = f'l{2 if idx == 0 else 1} [{name}_{idx}]{line}\n' # maybe -1?
         obs_labels += obs_label
 
-    c_ins_path = os.path.join(script_dir, 'Bromide.ins')
+    c_ins_path = os.path.join(script_dir, f'{name}.ins')    
     with open(c_ins_path, 'w') as c_ins:
         c_ins.write('pif @\n' + obs_labels)
-    print(f"1. Instruction file successfully created. Saved under {c_ins_path}")
-create_c_ins_file(meas, script_dir)
-ins_file= [file for file in os.listdir(script_dir) if file.endswith('.ins')]
+    print(f"1. {name} instruction file successfully created. Saved under {c_ins_path}")
 
 
+create_ins_file(measured["DMA"], 'DMA','3:12',script_dir)
+create_ins_file(measured["DMF"], 'DMF','3:12',script_dir)#'57:66'
+if ZHOU==True:
+    create_ins_file(measured["MMA"], 'MMA','3:12',script_dir)#'93:102',
+else:
+    create_ins_file(measured["NH3"], 'NH3','3:12',script_dir)#,'146:155'
 
 ##################################
 'Create Pest Control file '
 ##################################
-nobs = len(measured["DMA"])    #number of observations fo Swaroop and Zhou different 
-npargp = "1" #number of parameter groups 
+nobs = len(measured["DMA"])  *3  #number of observations fo Swaroop and Zhou different 
+npargp = "3" #number of parameter groups 
 npar = '3'    #number of parameters, 3 parameters for the reaction 
 nprior = '0'  #number of articles of prior information
 nobsgp = '3'   #number of observation groups different constituents for swaroop and zhou but have the same number 
@@ -135,10 +139,15 @@ ninsfle = '3'  #number of instruction files for each measured consituent
 
 # SOIL SPECIFIC PARAMETERS
 
-disp = config.get('column', 'disp', fallback='0.001')
-disp_range =config.get('column','disp_range',fallback=(0.003,0.005))
-disp_range = ast.literal_eval(disp_range)
-
+DmfDma = config.get('optimization inital parameters', 'DMF_DMA', fallback='0.001')
+DmfDma_range =config.get('optimization inital parameters','DMF_DMA_range',fallback=(0.003,0.005))
+DmfDma_range = ast.literal_eval(DmfDma_range)
+DmaMma = config.get('optimization inital parameters', 'DMA_MMA', fallback='0.001')
+DmaMma_range =config.get('optimization inital parameters','DMA_MMA_range',fallback=(0.003,0.005))
+DmaMma_range = ast.literal_eval(DmaMma_range)
+MmaNH3 = config.get('optimization inital parameters', 'MMA_AMMONIA', fallback='0.001')
+MmaNH3_range =config.get('optimization inital parameters','MMA_AMMONIA_range',fallback=(0.003,0.005))
+MmaNH3_range = ast.literal_eval(MmaNH3_range)
 
 # PEST CONTROL FILE
 control_data = (
@@ -153,22 +162,40 @@ control_data = (
     '0 0 0 verboserec NOJCOSAVEITN REISAVEITN NOPARSAVEITN \n'
 '* singular value decomposition\n'
     '1\n'
-    '25 5e-7\n'
+    '3 5e-7\n'
     '0\n'
 '* parameter groups\n'
-    'disp relative 0.01 0.0 switch 2.0 parabolic\n'
+    'DmfDma  relative 0.01 0.0 switch 2.0 parabolic\n'
+    'DmaMma relative 0.01 0.0 switch 2.0 parabolic\n'
+    'MmaNH3 relative 0.01 0.0 switch 2.0 parabolic\n'
 )
 control_data += (
 '* parameter data\n')
 control_data += (
-    'disp none relative ' +str(disp) +' '+str(disp_range[0]) +' '+str(disp_range[1]) +' disp 1.0 0.0 1\n'
-)
+    'DmfDma none relative ' +str(DmfDma) +' '+str(DmfDma_range[0]) +' '+str(DmfDma_range[1]) +' DmfDma 1.0 0.0 1\n'
+    'DmaMma none relative ' +str(DmaMma) +' '+str(DmaMma_range[0]) +' '+str(DmaMma_range[1]) +' DmaMma 1.0 0.0 1\n'
+    'MmaNH3 none relative ' +str(MmaNH3) +' '+str(MmaNH3_range[0]) +' '+str(MmaNH3_range[1]) +' MmaNH3 1.0 0.0 1\n'
+    )
 control_data += (
 '* observation groups\n'
-    'gC\n'
+    'gDmf\n'
+    'gDma\n')
+if ZHOU==True:
+    control_data += ('gMma\n')
+else:
+    control_data += ('gNH3\n')
+control_data += (
 '* observation data\n')
-for index, value in meas.items():
-        control_data += f'C_{index} {value} 1 gC\n'
+for index, value in measured['DMF'].items():
+        control_data += f'Dmf_{index} {value} 1 gDmf\n'
+for index, value in measured['DMA'].items():
+        control_data += f'Dma_{index} {value} 1 gDma\n'
+if ZHOU==True:
+    for index, value in measured['MMA'].items():
+        control_data += f'Mma_{index} {value} 1 gMma\n'
+else:      
+    for index, value in measured['NH3'].items():
+        control_data += f'NH3_{index} {value} 1 gNH3\n'
 
 control_data += (
 '* model command line\n' )
@@ -177,7 +204,10 @@ control_data+= "python R2_Run_PHQ.py \n "
 control_data+=(
 '* model input/output\n')
 control_data += tpl_file[0] + ' ' + phrq_file[0] + '\n'
-control_data += ins_file[0] + ' ' +'./output/' + SELFILE + '\n'  # sel output will be generate By PHREEQC and location is defined in tpl file 
+
+ins_files = [f for f in os.listdir(script_dir) if f.endswith('.ins')]
+for ins_file in ins_files:
+    control_data += f"{ins_file} ./{SELFILE}\n"
 
 control_file_path = os.path.join(script_dir, 'control.pst')
 with open(control_file_path, 'w') as control_file:
@@ -189,20 +219,25 @@ control_file.close()
 'Create Pest++ PSO Control file '
 ##################################
 
-nobs = len(meas)    #number of observations
-npargp = "1" #number of parameter groups
-npar = '1'    #number of parameters, lets start with one dispersivity 
+nobs = len(measured["DMA"]) *3   #number of observations fo Swaroop and Zhou different 
+npargp = "3" #number of parameter groups 
+npar = '3'    #number of parameters, 3 parameters for the reaction 
 nprior = '0'  #number of articles of prior information
-nobsgp = '1'   #number of observation groups
+nobsgp = '3'   #number of observation groups different constituents for swaroop and zhou but have the same number 
 ntpfle = '1'  #number of template files
-ninsfle = '1'  #number of instruction files
+ninsfle = '3'  #number of instruction files for each measured consituent
 
 # SOIL SPECIFIC PARAMETERS
 
-disp = config.get('column', 'disp', fallback='0.001')
-disp_range =config.get('column','disp_range',fallback=(0.003,0.005))
-disp_range = ast.literal_eval(disp_range)
-
+DmfDma = config.get('optimization inital parameters', 'DMF_DMA', fallback='0.001')
+DmfDma_range =config.get('optimization inital parameters','DMF_DMA_range',fallback=(0.003,0.005))
+DmfDma_range = ast.literal_eval(DmfDma_range)
+DmaMma = config.get('optimization inital parameters', 'DMA_MMA', fallback='0.001')
+DmaMma_range =config.get('optimization inital parameters','DMA_MMA_range',fallback=(0.003,0.005))
+DmaMma_range = ast.literal_eval(DmaMma_range)
+MmaNH3 = config.get('optimization inital parameters', 'MMA_AMMONIA', fallback='0.001')
+MmaNH3_range =config.get('optimization inital parameters','MMA_AMMONIA_range',fallback=(0.003,0.005))
+MmaNH3_range = ast.literal_eval(MmaNH3_range)
 
 # PEST CONTROL FILE
 control_data = (
@@ -217,22 +252,40 @@ control_data = (
     '0 0 0 verboserec NOJCOSAVEITN REISAVEITN NOPARSAVEITN \n'
 '* singular value decomposition\n'
     '1\n'
-    '25 5e-7\n'
+    '3 5e-7\n'
     '0\n'
 '* parameter groups\n'
-    'disp relative 0.01 0.0 switch 2.0 parabolic\n'
+    'DmfDma  relative 0.01 0.0 switch 2.0 parabolic\n'
+    'DmaMma relative 0.01 0.0 switch 2.0 parabolic\n'
+    'MmaNH3 relative 0.01 0.0 switch 2.0 parabolic\n'
 )
 control_data += (
 '* parameter data\n')
 control_data += (
-    'disp log relative ' +str(disp) +' '+str(disp_range[0]) +' '+str(disp_range[1]) +' disp 1.0 0.0 1\n'
-)
+    'DmfDma none relative ' +str(DmfDma) +' '+str(DmfDma_range[0]) +' '+str(DmfDma_range[1]) +' DmfDma 1.0 0.0 1\n'
+    'DmaMma none relative ' +str(DmaMma) +' '+str(DmaMma_range[0]) +' '+str(DmaMma_range[1]) +' DmaMma 1.0 0.0 1\n'
+    'MmaNH3 none relative ' +str(MmaNH3) +' '+str(MmaNH3_range[0]) +' '+str(MmaNH3_range[1]) +' MmaNH3 1.0 0.0 1\n'
+    )
 control_data += (
 '* observation groups\n'
-    'gC\n'
+    'gDmf\n'
+    'gDma\n')
+if ZHOU==True:
+    control_data += ('gMma\n')
+else:
+    control_data += ('gNH3\n')
+control_data += (
 '* observation data\n')
-for index, value in meas.items():
-        control_data += f'C_{index} {value} 1 gC\n'
+for index, value in measured['DMF'].items():
+        control_data += f'Dmf_{index} {value} 1 gDmf\n'
+for index, value in measured['DMF'].items():
+        control_data += f'Dma_{index} {value} 1 gDma\n'
+if ZHOU==True:
+    for index, value in measured['MMA'].items():
+        control_data += f'Mma_{index} {value} 1 gMma\n'
+else:      
+    for index, value in measured['NH3'].items():
+        control_data += f'NH3_{index} {value} 1 gNH3\n'
 
 control_data += (
 '* model command line\n' )
@@ -241,122 +294,29 @@ control_data+= "python R2_Run_PHQ.py \n "
 control_data+=(
 '* model input/output\n')
 control_data += tpl_file[0] + ' ' + phrq_file[0] + '\n'
-control_data += ins_file[0] + ' ' +'./output/' + SELFILE + '\n'  # sel output will be generate By PHREEQC and location is defined in tpl file 
+
+ins_files = [f for f in os.listdir(script_dir) if f.endswith('.ins')]
+sel_files = {os.path.splitext(f)[0]: f for f in os.listdir(os.path.join(parent_dir, "output")) if f.endswith('.sel')}
+
+for ins_file in ins_files:
+    base = os.path.splitext(ins_file)[0]
+    if base in sel_files:
+        sel_file = sel_files[base]
+        control_data += f"{ins_file} ./output/{sel_file}\n"
+    else:
+        print(f"Warning: No matching SEL file in output/ for {ins_file}")
 # needed information for the PSO 
 control_data += (
-    f'++PSO({os.path.join(script_dir, "queen/case.pso")})\n'
-    '++forgive_unknown_args(true)\n'
-)
-
+    #'++ \n'
+    #f'++PSO({os.path.join(script_dir, "queen/case.pso)}")\n'
+    f'++PSO(case.pso)')
+  #  '++forgive_unknown_args(true)\n'
 control_file_path = os.path.join(script_dir, 'control_pso.pst')
 with open(control_file_path, 'w') as control_file:
     control_file.write('pcf\n' + control_data)
     print(f"2b. Control PEST++ PSO file successfully created. Saved under {control_file_path}")
 control_file.close()
 
-
-####################################################################
-'Create Pest++ PSO Control file instructions based on Li Chaos CAS'
-####################################################################
-
-nobs = len(meas)    #number of observations
-npargp = "1" #number of parameter groups
-npar = '1'    #number of parameters, lets start with one dispersivity 
-nprior = '0'  #number of articles of prior information
-nobsgp = '1'   #number of observation groups
-ntpfle = '1'  #number of template files
-ninsfle = '1'  #number of instruction files
-
-# SOIL SPECIFIC PARAMETERS
-
-disp = config.get('column', 'disp', fallback='0.001')
-disp_range =config.get('column','disp_range',fallback=(0.003,0.005))
-disp_range = ast.literal_eval(disp_range)
-
-
-# PEST CONTROL FILE
-control_data = (
-'* control data\n'
-    'restart estimation\n'
-    +str(npar) +' '+str(nobs) +' '+npargp +' '+nprior +' '+nobsgp +'\n'
-    +ntpfle +' '+ninsfle +' single point 1 0 0 \n'
-    '10 -3 0.3 0.01 10 0 lamforgive noderforgive \n'
-    '10 10 0.001 \n'
-    '0.1 1 noaui \n'
-    '50 0.0005 4 4 0.0005 4 \n'
-    '0 0 0 verboserec NOJCOSAVEITN REISAVEITN NOPARSAVEITN \n'
-'* singular value decomposition\n'
-    '1\n'
-    '25 5e-7\n'
-    '0\n'
-'* parameter groups\n'
-    'disp relative 0.01 0.0 switch 2.0 parabolic\n'
-)
-control_data += (
-'* parameter data\n')
-control_data += (
-    'disp none relative ' +str(disp) +' '+str(disp_range[0]) +' '+str(disp_range[1]) +' disp 1.0 0.0 1\n'
-)
-control_data += (
-'* observation groups\n'
-    'gC\n'
-'* observation data\n')
-for index, value in meas.items():
-        control_data += f'C_{index} {value} 1 gC\n'
-
-control_data += (
-'* model command line\n' )
-control_data+= "python R2_Run_PHQ.py \n "
-#control_data+= PHRQCMD +  '    '+ phrq_file[0] +  '    '+ out_file[0]+  '    '+PHRQDB+  '    '+SCR+'\n'
-control_data+=(
-'* model input/output\n')
-control_data += tpl_file[0] + ' ' + phrq_file[0] + '\n'
-control_data += ins_file[0] + ' ' +'./output/' + SELFILE + '\n'  # sel output will be generate By PHREEQC and location is defined in tpl file 
-
-control_file_path = os.path.join(script_dir, 'control_psoCAS.pst')
-with open(control_file_path, 'w') as control_file:
-    control_file.write('pcf\n' + control_data)
-    print(f"2c. Control file successfully created. Saved under {control_file_path}")
-control_file.close()
-
-
-####################################################################
-'Create Pest++ PSO.pso Control file '
-####################################################################
-
-nobs = len(meas)    #number of observations
-npargp = "1" #number of parameter groups
-npar = '1'    #number of parameters, lets start with one dispersivity 
-nprior = '0'  #number of articles of prior information
-nobsgp = '1'   #number of observation groups
-ntpfle = '1'  #number of template files
-ninsfle = '1'  #number of instruction files
-
-# SOIL SPECIFIC PARAMETERS
-
-disp = config.get('column', 'disp', fallback='0.001')
-disp_range =config.get('column','disp_range',fallback=(0.003,0.005))
-disp_range = ast.literal_eval(disp_range)
-
-
-# PEST CONTROL FILE
-control_data = (
-'* control data\n'
-    '0 1 1 30 2\n' #RSTPSO NOBJGP NCON NFORG VERBOSE
-    '20  2 2 0.1\n' #NPOP C1 C2 ISEED
-    '1 0.8 0.7 0.4 1\n' #INITP VMAX IINERT FINERT INITER
-    '0 500 \n' #NEIBR NNEIBR neighborhoods not used if NEIBR=0
-'* objctive data \n' 
-    'disp 1\n'#OBJNME OBJMETH
-# '* constraint data \n'
-#     'disp relative 0.01 0.0 switch 2.0 parabolic\n' #CONNME CONMETH UPLIM
-)
-
-control_file_path = os.path.join(script_dir, 'case.pst')
-with open(control_file_path, 'w') as control_file:
-    control_file.write(control_data)
-    print(f"20. PSO control file successfully created. Saved under {control_file_path}")
-control_file.close()
 ##################################
 'Create Template file'
 ##################################
@@ -370,9 +330,14 @@ def modify_phrq_and_save():
         
         with open(phrq_path, 'r') as file:
             lines = file.readlines()
-            lines[94] = '    -dispersivities  40*$disp$\n'
-            lines[76]='  -file output/Br_SP_heterogen.sel\n'
-
+            lines[48] = '     -parms   $DmfDma$  \n'
+            lines[53] = '     -parms   $DmaMma$  \n'
+            lines[59] = '     -parms   $MmaNH3$  \n'
+            #lines[112]=f"   -file  {os.path.join(output_path, 'Results.sel')}\n"
+            #lines[92]='  -file output/Dmf.sel\n'
+            #lines[97]='  -file output/Mma.sel\n'
+            #lines[102]='  -file output/Dma.sel\n'
+            #lines[107]='  -file output/NH3.sel\n'
         tpl_file_name = phrq_file[0].replace('.phrq', '.tpl')
         output_file_path = os.path.join(script_dir, tpl_file_name)
 

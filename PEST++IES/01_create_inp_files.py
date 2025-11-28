@@ -14,15 +14,16 @@ import ast
 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
-input_folder = os.path.join(parent_dir, "input")
-
+grandparent_dir = os.path.abspath(os.path.join(script_dir, os.pardir, os.pardir))
+input_folder = os.path.join(grandparent_dir, "input")
+print(grandparent_dir)
 phrq_file = [file for file in os.listdir(input_folder) if file.endswith('.phrq')]
+
 
 out_file = [file.replace('.phrq', '.out') for file in phrq_file]
 tpl_file = [file.replace('.phrq', '.tpl') for file in phrq_file]#[file for file in os.listdir(script_dir) if file.endswith('.tpl')]
 
-meas_dir= os.path.join(parent_dir,'Measurements')
+
 
 # read all information from configfile
 if len(sys.argv) > 1:
@@ -55,7 +56,22 @@ else:
 ##################################
     'Create Instruction file '
 ##################################
-
+if ZHOU:
+    if FIRST:
+        phrq_input_file = os.path.join(input_folder, 'Zhou_first.phrq')
+        print(phrq_input_file)
+    elif BIOMASS:
+        phrq_input_file = os.path.join(input_folder, 'Zhou_biomass.phrq')
+        print(phrq_input_file)
+elif SWAROOP:
+    if FIRST:
+        phrq_input_file = os.path.join(input_folder, 'Swaroop_first.phrq')
+        print(phrq_input_file)
+    elif BIOMASS:
+        phrq_input_file = os.path.join(input_folder, 'Swaroop_biomass.phrq')
+        print(phrq_input_file)
+else:
+    raise ValueError("No dataset selected (ZHOU or SWAROOP).")
 
 # Read the Measurements from Excel file
 # Manually digitized values from the graph based on visual inspection of Zhou et al. (2019) Figure 4
@@ -135,6 +151,58 @@ else:
     create_ins_file( 'NH3','3:12')#,'146:155'
 
 ##################################
+'Create Template file'
+##################################
+
+def modify_phrq_and_save():
+    """
+    phrq_input_file: full path to the PHRQ file you want to use
+    """
+    print("Using input PHRQ file:", phrq_input_file)
+
+    # Read the file
+    with open(phrq_input_file, 'r') as file:
+        lines = file.readlines()
+
+    # Lines to replace
+    replacements = {
+        48: '     -parms   $DmfDma$  \n',
+        53: '     -parms   $DmaMma$  \n',
+        59: '     -parms   $MmaNH3$  \n',
+        92: '  -file output/DMF.sel\n',
+        97: '  -file output/MMA.sel\n',
+        102: '  -file output/DMA.sel\n',
+        107: '  -file output/NH3.sel\n',
+        112: "   -file  output/Results.sel \n"
+    }
+
+    # Extend lines if file is shorter than expected
+    for idx, val in replacements.items():
+        while len(lines) <= idx:
+            lines.append("\n")
+        lines[idx] = val
+
+    # Save template file
+    tpl_file_name = os.path.basename(phrq_input_file).replace('.phrq', '.tpl')
+    tpl_path = os.path.join(script_dir, tpl_file_name)
+    with open(tpl_path, 'w') as tpl_file:
+        tpl_file.write('ptf $\n')
+        tpl_file.writelines(lines)
+
+    print(f"2. Template file successfully created: {tpl_path}")
+
+    # Save copied .phrq file
+    copied_phrq_path = os.path.join(script_dir, os.path.basename(phrq_input_file))
+    with open(copied_phrq_path, 'w') as new_phrq:
+        new_phrq.writelines(lines)
+
+    print(f"3. PHRQ file successfully copied: {copied_phrq_path}")
+
+    return tpl_path, copied_phrq_path
+
+tpl_path, copied_phrq_path = modify_phrq_and_save()
+
+##################################
 'Create Pest Control file '
 ##################################
 nobs = len(measured["DMA"])  *3  #number of observations fo Swaroop and Zhou different 
@@ -195,9 +263,9 @@ else:
 control_data += (
 '* observation data\n')
 for index, value in measured['DMF'].items():
-        control_data += f'DMF_{index} {value} 0.57 gDmf\n'
+        control_data += f'DMF_{index} {value} 1 gDmf\n'
 for index, value in measured['DMA'].items():
-        control_data += f'DMA_{index} {value} 3.47 gDma\n' # higher weight 
+        control_data += f'DMA_{index} {value} 1 gDma\n' # higher weight 
 if ZHOU==True:
     for index, value in measured['MMA'].items():
         control_data += f'MMA_{index} {value} 1 gMma\n'
@@ -211,8 +279,8 @@ control_data+= "python R2_Run_PHQ.py \n "
 #control_data+= PHRQCMD +  '    '+ phrq_file[0] +  '    '+ out_file[0]+  '    '+PHRQDB+  '    '+SCR+'\n'
 control_data+=(
 '* model input/output\n')
-control_data += tpl_file[0] + ' ' + phrq_file[0] + '\n'
 
+control_data += os.path.basename(tpl_path) + ' ' + os.path.basename(copied_phrq_path) + '\n'
 ins_files = [f for f in os.listdir(script_dir) if f.endswith('.ins')]
 sel_files = {os.path.splitext(f)[0]: f for f in os.listdir(os.path.join(parent_dir, "output")) if f.endswith('.sel')}
 
@@ -225,83 +293,17 @@ for ins_file in ins_files:
         print(f"Warning: No matching SEL file in output/ for {ins_file}")
 control_data+=(
 'DMA.ins  output/DMA.sel\n'
-'DMF.ins  output/DMF.sel\n'
 'MMA.ins   output/MMA.sel\n'
 '++ies_num_reals(200)\n'
 '++ies_lambda_mults(1.2)\n'
-'++ies_bad_phi(0.00075)')
+'++ies_bad_phi(0.001)')
 
 control_file_path = os.path.join(script_dir, 'control.pst')
 with open(control_file_path, 'w') as control_file:
     control_file.write('pcf\n' + control_data)
-    print(f"2. Control file successfully created. Saved under {control_file_path}")
+    print(f"4. Control file successfully created. Saved under {control_file_path}")
 control_file.close()
 
 
 
-##################################
-'Create Template file'
-##################################
-if ZHOU:
-    if FIRST:
-        phrq_input_file = os.path.join(input_folder, 'Zhou_first.phrq')
-        print(phrq_input_file)
-    elif BIOMASS:
-        phrq_input_file = os.path.join(input_folder, 'Zhou_biomass.phrq')
-        print(phrq_input_file)
-elif SWAROOP:
-    if FIRST:
-        phrq_input_file = os.path.join(input_folder, 'Swaroop_first.phrq')
-        print(phrq_input_file)
-    elif BIOMASS:
-        phrq_input_file = os.path.join(input_folder, 'Swaroop_biomass.phrq')
-        print(phrq_input_file)
-else:
-    raise ValueError("No dataset selected (ZHOU or SWAROOP).")
-def modify_phrq_and_save():
-    """
-    phrq_input_file: full path to the PHRQ file you want to use
-    """
-    print("Using input PHRQ file:", phrq_input_file)
 
-    # Read the file
-    with open(phrq_input_file, 'r') as file:
-        lines = file.readlines()
-
-    # Lines to replace
-    replacements = {
-        48: '     -parms   $DmfDma$  \n',
-        53: '     -parms   $DmaMma$  \n',
-        59: '     -parms   $MmaNH3$  \n',
-        92: '  -file output/DMF.sel\n',
-        97: '  -file output/MMA.sel\n',
-        102: '  -file output/DMA.sel\n',
-        107: '  -file output/NH3.sel\n',
-        112: "   -file  output/Results.sel \n"
-    }
-
-    # Extend lines if file is shorter than expected
-    for idx, val in replacements.items():
-        while len(lines) <= idx:
-            lines.append("\n")
-        lines[idx] = val
-
-    # Save template file
-    tpl_file_name = os.path.basename(phrq_input_file).replace('.phrq', '.tpl')
-    tpl_path = os.path.join(script_dir, tpl_file_name)
-    with open(tpl_path, 'w') as tpl_file:
-        tpl_file.write('ptf $\n')
-        tpl_file.writelines(lines)
-
-    print(f"3. Template file successfully created: {tpl_path}")
-
-    # Save copied .phrq file
-    copied_phrq_path = os.path.join(script_dir, os.path.basename(phrq_input_file))
-    with open(copied_phrq_path, 'w') as new_phrq:
-        new_phrq.writelines(lines)
-
-    print(f"4. PHRQ file successfully copied: {copied_phrq_path}")
-
-    return tpl_path, copied_phrq_path
-
-tpl_path, copied_phrq_path = modify_phrq_and_save()

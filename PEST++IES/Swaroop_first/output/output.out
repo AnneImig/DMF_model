@@ -1,0 +1,505 @@
+   Input file: /Users/anneimig/DMF_model/PEST++IES/Swaroop_first/Swaroop_first.phrq
+  Output file: /Users/anneimig/DMF_model/PEST++IES/Swaroop_first/output/output.out
+Database file: /Users/anneimig/Documents/Software_executables/Phreeqc/phreeqc-3.5.0-14000/database/phreeqc_P.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE  Fate of DMF Zhou, X., Jin, W., Sun, C., Gao, S.-H., Chen, C., Wang, Q., Han, S.-F., Tu, R., Latif, 
+	M. A., and Wang, Q.: Microbial degradation of N,N-dimethylformamide by Paracoccus sp. strain DMF-3 from activated 
+	sludge, Chemical Engineering Journal, 343, 324â€“330, https://doi.org/10.1016/j.cej.2018.03.023, 2018.
+	SOLUTION_MASTER_SPECIES
+	Dmf           Dmf              0       Dmf             73.09  
+	Dma           Dma              0       Dma             45
+	Mma           Mma              0       Mma             31
+	Form          Form             0       Form            45
+	Formaldehyde  Formaldehyde     0       Formaldehyde    30
+	SOLUTION_SPECIES
+	Dmf = Dmf
+	    log_k     0
+	Dma = Dma
+	    log_k     0
+	Mma = Mma 
+	    log_k     0
+	Form = Form
+	    log_k     0
+	Formaldehyde = Formaldehyde
+	    log_k     0
+	SOLUTION 0
+	    temp      15
+	    pH        7.0
+	    units     mol/kgw
+	    density   1
+	     Dmf       400 mg/kgw 
+	    water    1 # kg 
+	Incremental_Reactions True 
+	KINETICS 
+	Dmf_Dma
+	    formula  Dmf -1 Dma 1 H20 2 Form 1  #H+ 3 
+	     parms   1.542741  
+	     steps   0 24*1      #24h 
+	Dma_Mma
+	    formula Dma  -1 Mma  1 Formaldehyde 1
+	     parms   0.267629  
+	Mma_Ammonia
+	    formula  Mma  -1 Formaldehyde 1 Amm 1
+	     parms   1.448710  
+	RATES
+	Dmf_Dma
+	start
+	01 mDmf       = tot("Dmf")
+	03 rate       = parm(1)*mDmf
+	10 moles      = rate *time
+	15 put(rate,01)
+	20 SAVE moles
+	end
+	Dma_Mma
+	start
+	01 mDma       = tot("Dma")
+	03 rate       = parm(1)*mDma
+	10 moles      = rate *time
+	15 put(rate,02)
+	20 SAVE moles
+	end
+	Mma_Ammonia
+	start
+	01 mMma       = tot("Mma")
+	03 rate       = parm(1)*mMma
+	10 moles      = rate *time
+	15 put(rate,03)
+	20 SAVE moles
+	end
+	SELECTED_OUTPUT  1 # 1 by default
+	  file output/DMF.sel
+	reset false
+	totals DMF
+	SELECTED_OUTPUT  2
+	  file output/MMA.sel
+	reset false
+	totals MMA
+	SELECTED_OUTPUT  3
+	  file output/DMA.sel
+	reset false
+	totals DMA
+	SELECTED_OUTPUT  4
+	  file output/NH3.sel
+	reset false
+	molalities Amm
+	SELECTED_OUTPUT 5
+	   file  output/Results.sel 
+		time true
+		reset false
+	USER_PUNCH 5
+	    headings Time pH	pe	DMF DMA MMA Formaldehyde Formate Ammonia rate_Dmf_Dma rate_Dma_Mma rate_Mma_Ammonium
+		start
+	10 	PUNCH  time
+	20  PUNCH - la("H+") 
+	30  PUNCH - la("e-") 
+	40  PUNCH  tot("Dmf") tot("Dma")   tot("Mma")   tot("Formaldehyde")  tot("Form")  MOL('Amm')
+	50  PUNCH  get(01) get(02)  get(03) 
+	    end
+	END
+-----
+TITLE
+-----
+
+  Fate of DMF Zhou, X., Jin, W., Sun, C., Gao, S.-H., Chen, C., Wang, Q., Han, S.-F., Tu, R., Latif, 
+M. A., and Wang, Q.: Microbial degradation of N,N-dimethylformamide by Paracoccus sp. strain DMF-3 from activated 
+sludge, Chemical Engineering Journal, 343, 324â€“330, https://doi.org/10.1016/j.cej.2018.03.023, 2018.
+
+-------------------------------------------
+Beginning of initial solution calculations.
+-------------------------------------------
+
+Initial solution 0.	
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Dmf               5.473e-03   5.473e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000    
+                                       pe  =   4.000    
+      Specific Conductance (µS/cm,  15°C)  = 0
+                          Density (g/cm³)  =   0.99950
+                               Volume (L)  =   1.00090
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   7.256e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -5.495e-08
+                         Temperature (°C)  =  15.00
+                  Electrical balance (eq)  =   5.495e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  37.86
+                               Iterations  =   2
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   OH-             4.509e-08   4.507e-08    -7.346    -7.346    -0.000     (0)  
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.03
+Dmf           5.473e-03
+   Dmf             5.473e-03   5.473e-03    -2.262    -2.262     0.000     (0)  
+H(0)          1.451e-25
+   H2              7.256e-26   7.256e-26   -25.139   -25.139     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -45.509   -45.509     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(288 K,   1 atm)
+
+  H2(g)           -22.03    -25.14   -3.11  H2
+  H2O(g)           -1.78     -0.00    1.78  H2O
+  O2(g)           -42.70    -45.51   -2.81  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+-----------------------------------------
+Beginning of batch-reaction calculations.
+-----------------------------------------
+
+Reaction step 1.
+
+Using solution 0.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 0 seconds  (Incremented time: 0 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Dmf_Dma          -0.000e+00   1.000e+00   Dma                       1
+	                                          Dmf                      -1
+	                                          Form                      1
+	                                          H20                       2
+	Dma_Mma          -0.000e+00   1.000e+00   Dma                      -1
+	                                          Formaldehyde              1
+	                                          Mma                       1
+	Mma_Ammonia      -0.000e+00   1.000e+00   Amm                       1
+	                                          Formaldehyde              1
+	                                          Mma                      -1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Dmf               5.473e-03   5.473e-03
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =   7.000      Charge balance
+                                       pe  =   4.000      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  15°C)  = 0
+                          Density (g/cm³)  =   0.99950
+                               Volume (L)  =   1.00090
+                        Activity of water  =   1.000
+                 Ionic strength (mol/kgw)  =   7.256e-08
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =  -5.495e-08
+                         Temperature (°C)  =  15.00
+                  Electrical balance (eq)  =   5.495e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =  37.86
+                               Iterations  =   0
+                                  Total H  = 1.110124e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   H+              1.000e-07   1.000e-07    -7.000    -7.000    -0.000      0.00
+   OH-             4.509e-08   4.507e-08    -7.346    -7.346    -0.000     (0)  
+   H2O             5.551e+01   9.999e-01     1.744    -0.000     0.000     18.03
+Dmf           5.473e-03
+   Dmf             5.473e-03   5.473e-03    -2.262    -2.262     0.000     (0)  
+H(0)          1.451e-25
+   H2              7.256e-26   7.256e-26   -25.139   -25.139     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -45.509   -45.509     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(288 K,   1 atm)
+
+  H2(g)           -22.03    -25.14   -3.11  H2
+  H2O(g)           -1.78     -0.00    1.78  H2O
+  O2(g)           -42.70    -45.51   -2.81  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 2.
+
+WARNING: Negative moles in solution 0 for Amm, -3.648913e-04. Recovering...
+Using solution 0.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1 seconds  (Incremented time: 1 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Dmf_Dma          -4.303e-03   9.957e-01   Dma                       1
+	                                          Dmf                      -1
+	                                          Form                      1
+	                                          H20                       2
+	Dma_Mma          -6.517e-04   9.993e-01   Dma                      -1
+	                                          Formaldehyde              1
+	                                          Mma                       1
+	Mma_Ammonia      -2.532e-04   9.997e-01   Amm                       1
+	                                          Formaldehyde              1
+	                                          Mma                      -1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Amm               2.532e-04   2.532e-04
+	Dma               3.651e-03   3.651e-03
+	Dmf               1.170e-03   1.170e-03
+	Form              4.303e-03   4.303e-03
+	Formaldehyde      9.049e-04   9.049e-04
+	Mma               3.984e-04   3.984e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  10.100      Charge balance
+                                       pe  = -11.137      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  15°C)  = 12
+                          Density (g/cm³)  =   0.99976
+                               Volume (L)  =   1.00090
+                        Activity of water  =   0.998
+                 Ionic strength (mol/kgw)  =   5.722e-05
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   2.532e-04
+                         Temperature (°C)  =  15.00
+                  Electrical balance (eq)  =   5.495e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.05
+                               Iterations  = 343 (324 overall)
+                                  Total H  = 1.111845e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             5.719e-05   5.670e-05    -4.243    -4.246    -0.004     (0)  
+   H+              8.005e-11   7.937e-11   -10.097   -10.100    -0.004      0.00
+   H2O             5.551e+01   9.984e-01     1.744    -0.001     0.000     18.03
+Amm           2.532e-04
+   Amm             1.960e-04   1.960e-04    -3.708    -3.708     0.000     (0)  
+   AmmH+           5.725e-05   5.675e-05    -4.242    -4.246    -0.004     17.60
+Dma           3.651e-03
+   Dma             3.651e-03   3.651e-03    -2.438    -2.438     0.000     (0)  
+Dmf           1.170e-03
+   Dmf             1.170e-03   1.170e-03    -2.932    -2.932     0.000     (0)  
+Form          4.303e-03
+   Form            4.303e-03   4.303e-03    -2.366    -2.366     0.000     (0)  
+Formaldehyde   9.049e-04
+   Formaldehyde    9.049e-04   9.049e-04    -3.043    -3.043     0.000     (0)  
+H(0)          1.721e-01
+   H2              8.605e-02   8.605e-02    -1.065    -1.065     0.000     (0)  
+Mma           3.984e-04
+   Mma             3.984e-04   3.984e-04    -3.400    -3.400     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -93.658   -93.658     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(288 K,   1 atm)
+
+  Amm(g)           -5.69     -3.71    1.98  Amm
+  H2(g)             2.04     -1.07   -3.11  H2
+  H2O(g)           -1.78     -0.00    1.78  H2O
+  O2(g)           -90.85    -93.66   -2.81  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 3.
+
+Using solution 0.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1 seconds  (Incremented time: 2 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Dmf_Dma          -9.199e-04   9.948e-01   Dma                       1
+	                                          Dmf                      -1
+	                                          Form                      1
+	                                          H20                       2
+	Dma_Mma          -9.966e-04   9.984e-01   Dma                      -1
+	                                          Formaldehyde              1
+	                                          Mma                       1
+	Mma_Ammonia      -7.775e-04   9.990e-01   Amm                       1
+	                                          Formaldehyde              1
+	                                          Mma                      -1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Amm               1.031e-03   1.031e-03
+	Dma               3.574e-03   3.574e-03
+	Dmf               2.501e-04   2.501e-04
+	Form              5.223e-03   5.223e-03
+	Formaldehyde      2.679e-03   2.679e-03
+	Mma               6.175e-04   6.175e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  10.433      Charge balance
+                                       pe  = -11.512      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  15°C)  = 26
+                          Density (g/cm³)  =   0.99984
+                               Volume (L)  =   1.00090
+                        Activity of water  =   0.998
+                 Ionic strength (mol/kgw)  =   1.236e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.031e-03
+                         Temperature (°C)  =  15.00
+                  Electrical balance (eq)  =   5.495e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.02
+                               Iterations  = 176
+                                  Total H  = 1.112213e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.235e-04   1.220e-04    -3.908    -3.914    -0.006     (0)  
+   H+              3.734e-11   3.688e-11   -10.428   -10.433    -0.005      0.00
+   H2O             5.551e+01   9.980e-01     1.744    -0.001     0.000     18.03
+Amm           1.031e-03
+   Amm             9.072e-04   9.072e-04    -3.042    -3.042     0.000     (0)  
+   AmmH+           1.236e-04   1.220e-04    -3.908    -3.913    -0.006     17.60
+Dma           3.574e-03
+   Dma             3.574e-03   3.574e-03    -2.447    -2.447     0.000     (0)  
+Dmf           2.501e-04
+   Dmf             2.501e-04   2.502e-04    -3.602    -3.602     0.000     (0)  
+Form          5.223e-03
+   Form            5.223e-03   5.223e-03    -2.282    -2.282     0.000     (0)  
+Formaldehyde   2.679e-03
+   Formaldehyde    2.679e-03   2.679e-03    -2.572    -2.572     0.000     (0)  
+H(0)          2.089e-01
+   H2              1.045e-01   1.045e-01    -0.981    -0.981     0.000     (0)  
+Mma           6.175e-04
+   Mma             6.175e-04   6.175e-04    -3.209    -3.209     0.000     (0)  
+O(0)          0.000e+00
+   O2              0.000e+00   0.000e+00   -93.827   -93.827     0.000     (0)  
+
+------------------------------Saturation indices-------------------------------
+
+  Phase               SI** log IAP   log K(288 K,   1 atm)
+
+  Amm(g)           -5.02     -3.04    1.98  Amm
+  H2(g)             2.12     -0.98   -3.11  H2
+  H2O(g)           -1.78     -0.00    1.78  H2O
+  O2(g)           -91.01    -93.83   -2.81  O2
+
+**For a gas, SI = log10(fugacity). Fugacity = pressure * phi / 1 atm.
+  For ideal gases, phi = 1.
+
+Reaction step 4.
+
+Using solution 0.	
+Using kinetics 1.	
+
+Kinetics 1.	
+
+	Time step: 1 seconds  (Incremented time: 3 seconds)
+
+	Rate name       Delta Moles Total Moles   Reactant        Coefficient
+
+	Dmf_Dma          -1.967e-04   9.946e-01   Dma                       1
+	                                          Dmf                      -1
+	                                          Form                      1
+	                                          H20                       2
+	Dma_Mma          -8.691e-04   9.975e-01   Dma                      -1
+	                                          Formaldehyde              1
+	                                          Mma                       1
+	Mma_Ammonia      -8.938e-04   9.981e-01   Amm                       1
+	                                          Formaldehyde              1
+	                                          Mma                      -1
+
+-----------------------------Solution composition------------------------------
+
+	Elements           Molality       Moles
+
+	Amm               1.925e-03   1.925e-03
+	Dma               2.902e-03   2.902e-03
+	Dmf               5.348e-05   5.348e-05
+	Form              5.419e-03   5.419e-03
+	Formaldehyde      4.442e-03   4.442e-03
+	Mma               5.928e-04   5.928e-04
+
+----------------------------Description of solution----------------------------
+
+                                       pH  =  10.576      Charge balance
+                                       pe  = -11.663      Adjusted to redox equilibrium
+      Specific Conductance (µS/cm,  15°C)  = 36
+                          Density (g/cm³)  =   0.99988
+                               Volume (L)  =   1.00090
+                        Activity of water  =   0.998
+                 Ionic strength (mol/kgw)  =   1.721e-04
+                       Mass of water (kg)  =   1.000e+00
+                 Total alkalinity (eq/kg)  =   1.925e-03
+                         Temperature (°C)  =  15.00
+                  Electrical balance (eq)  =   5.495e-08
+ Percent error, 100*(Cat-|An|)/(Cat+|An|)  =   0.02
+                               Iterations  = 133
+                                  Total H  = 1.112292e+02
+                                  Total O  = 5.550622e+01
+
+----------------------------Distribution of species----------------------------
+
+                                               Log       Log       Log    mole V
+   Species          Molality    Activity  Molality  Activity     Gamma   cm³/mol
+
+   OH-             1.721e-04   1.696e-04    -3.764    -3.771    -0.006     (0)  
+   H+              2.692e-11   2.653e-11   -10.570   -10.576    -0.006      0.00
+   H2O             5.551e+01   9.979e-01     1.744    -0.001     0.000     18.03
+Amm           1.925e-03
+   Amm             1.752e-03   1.752e-03    -2.756    -2.756     0.000     (0)  
+   AmmH+           1.722e-04   1.696e-04    -3.764    -3.771    -0.007     17.60
+Dma           2.902e-03
+   Dma             2.902e-03   2.902e-03    -2.537    -2.537     0.000     (0)  
+Dmf           5.348e-05
+   Dmf             5.348e-05   5.348e-05    -4.272    -4.272     0.000     (0)  
+Form          5.419e-03
+   Form            5.419e-03   5.419e-03    -2.266    -2.266     0.000     (0)  
+Formaldehyde   4.442e-03
+   Formaldehyde    4.442e-03   4.442e-03    -2.352    -2.352     0.000     (0)  
+H(0)          2.168e-01
+   H2              1.084e-01   1.084e-01    -0.965    -0.965     0.000

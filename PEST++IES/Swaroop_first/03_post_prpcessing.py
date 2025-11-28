@@ -109,6 +109,95 @@ for j, param in enumerate(parameters):
 plt.tight_layout()
 plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_parameter_density_ensembles.png"), dpi=300)
 
+# ----------------- Statistics for parameter -----------------
+# ---- MEAN ± STD analysis for each parameter across ensembles ----
+parameters = ["dmfdma", "dmamma", "mmanh3"]
+
+analysis_rows = []
+
+for ens_num, df in ensembles.items():
+    row = {"ensemble": ens_num}
+
+    for p in parameters:
+        col = df[p].dropna()
+
+        p_mean = col.mean()
+        p_std = col.std()
+
+        row[f"{p}_mean"] = p_mean
+        row[f"{p}_std"] = p_std
+        row[f"{p}_lower"] = p_mean - p_std
+        row[f"{p}_upper"] = p_mean + p_std
+
+    analysis_rows.append(row)
+
+ensemble_stats_std = pd.DataFrame(analysis_rows).sort_values("ensemble")
+
+print("\n--- Mean ± STD per Ensemble ---")
+print(ensemble_stats_std)
+
+# save results per ensemble
+ensemble_stats_std.to_csv(
+    os.path.join(script_dir, "R3_post_processing/R3_parameter_mean_std_per_ensemble.csv"),
+    index=False
+)
+
+
+# ---- GLOBAL stats (across ALL ensembles) ----
+global_row = {}
+
+for p in parameters:
+    merged_all = pd.concat([ensembles[e][p] for e in ensembles]).dropna()
+
+    g_mean = merged_all.mean()
+    g_std = merged_all.std()
+
+    global_row[f"{p}_mean"] = g_mean
+    global_row[f"{p}_std"] = g_std
+    global_row[f"{p}_lower"] = g_mean - g_std
+    global_row[f"{p}_upper"] = g_mean + g_std
+
+global_stats_std = pd.DataFrame([global_row])
+
+print("\n--- GLOBAL Mean ± STD across ALL ensembles ---")
+print(global_stats_std)
+
+global_stats_std.to_csv(
+    os.path.join(script_dir, "R3_post_processing/R3_parameter_mean_std_global.csv"),
+    index=False
+)
+
+# Combine all ensemble data
+all_data = []
+
+for ens, df in ensembles.items():
+    temp = df[parameters].copy()
+    temp["ensemble"] = ens
+    all_data.append(temp)
+
+all_data = pd.concat(all_data, ignore_index=True)
+
+# --- Create LaTeX labels for plotting ---
+latex_params = [r"$k_{1}$", r"$k_{2}$", r"$k_{3}$"]
+
+# --- HISTOGRAM PLOT (all parameters in one subplot) ---
+plt.figure(figsize=(10, 6))
+
+for p, label in zip(parameters, latex_params):
+    sns.histplot(all_data[p].dropna(), 
+                 kde=False, 
+                 label=label, 
+                 stat="density", 
+                 alpha=0.5)
+
+
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.xlabel("Parameter value [1/d]", fontsize=14)
+plt.ylabel("Density",  fontsize=14)
+plt.legend(fontsize=14)
+plt.tight_layout()
+plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_parameter_histogram_all_in_one.png"), dpi=300)
 
 
 # ---------------- CONVERT MEASURED VALUES TO MOL/L -----------------
@@ -155,7 +244,7 @@ elif ZHOU:
 # ------------------------------------------------
 
 
-# --------- READ ALL OBS FILES FOR ENSEMBLES -----
+# ----------------- LOAD OBS FILES -----------------
 obs_files = sorted(
     [f for f in os.listdir(script_dir) if re.match(rf"{case}\.\d+\.obs\.csv", f)],
     key=lambda x: int(re.findall(r"\d+", x)[0])
@@ -164,242 +253,204 @@ obs_files = sorted(
 ensembles_obs = {}
 for f in obs_files:
     run = int(re.findall(r"\d+", f)[0])
-    path = os.path.join(script_dir, f)
-    ensembles_obs[run] = pd.read_csv(path)
+    ensembles_obs[run] = pd.read_csv(os.path.join(script_dir, f))
 
 print("Loaded observation files:", list(ensembles_obs.keys()))
 
-
-# ----------- IDENTIFY DMF / DMA / NH3 COLUMNS -------------
 example_df = ensembles_obs[list(ensembles_obs.keys())[0]]
 
+# ----------------- IDENTIFY COLUMNS -----------------
 dmf_cols = [c for c in example_df.columns if c.lower().startswith("dmf_")]
 dma_cols = [c for c in example_df.columns if c.lower().startswith("dma_")]
+mma_cols = [c for c in example_df.columns if c.lower().startswith("mma_")]
 nh3_cols = [c for c in example_df.columns if c.lower().startswith("nh3_")]
 
-print("DMF columns:", dmf_cols)
-print("DMA columns:", dma_cols)
-print("NH3 columns:", nh3_cols)
+if ZHOU:
+    titles = ["DMF", "DMA", "MMA"]
+    all_col_sets = [dmf_cols, dma_cols, mma_cols]
+    measured_names = ["DMF", "DMA", "MMA"]
+    colors = ["black", "red", "blue"]
+elif SWAROOP:
+    titles = ["DMF", "DMA", "NH3"]
+    all_col_sets = [dmf_cols, dma_cols, nh3_cols]
+    measured_names = ["DMF", "DMA", "NH3"]
+    colors = ["black", "red", "orange"]
 
+# filter out empty sets
+non_empty = [(t, c, m) for t, c, m in zip(titles, all_col_sets, measured_names) if len(c) > 0]
+titles, all_col_sets, measured_names = zip(*non_empty)
 
-# ----------- PLOT SPAGHETTI ACROSS ENSEMBLES --------------
-fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-
-titles = ["DMF", "DMA", "NH₃"]
-all_col_sets = [dmf_cols, dma_cols, nh3_cols]
-for ax, col_set, title in zip(axes, all_col_sets, titles):
-
-    # Plot all ensemble realizations (spaghetti)
-    for run, df in ensembles_obs.items():
-        for _, row in df.iterrows():
-            ax.plot(time, row[col_set].values, linewidth=0.7, alpha=0.25, color='blue')
-
-    # Plot measured values
-    measured_col = title if title != "NH₃" else "NH3"  # match your measured DataFrame keys
-    if measured_col in measured.columns:
-        ax.scatter(measured["Time"], measured[measured_col], color='red', s=50, zorder=5, label='Measured')
-
-    ax.set_title(f"{title} – Spaghetti Plot (all ensembles)")
-    ax.set_xlabel("Time")
-    ax.set_ylabel("Concentration (mol/L)")
-    ax.grid(True, alpha=0.2)
-    ax.legend()
-
-plt.tight_layout()
-plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_spaghetti_plot_with_measured.png"), dpi=300)
-
-
-# ---------------- TIME VECTORS ------------------
-if SWAROOP:
-    time = np.array([0, 3, 6, 9, 12, 15, 18, 21, 24])
-elif ZHOU:
-    time = np.array([0, 12, 24, 36, 48, 60, 72])
-# ------------------------------------------------
-
-# --------- READ ALL OBS FILES FOR ENSEMBLES -----
-obs_files = sorted(
-    [f for f in os.listdir(script_dir) if re.match(rf"{case}\.\d+\.obs\.csv", f)],
-    key=lambda x: int(re.findall(r"\d+", x)[0])
-)
-
-ensembles_obs = {}
-for f in obs_files:
-    run = int(re.findall(r"\d+", f)[0])
-    path = os.path.join(script_dir, f)
-    ensembles_obs[run] = pd.read_csv(path)
-
-print("Loaded observation files:", list(ensembles_obs.keys()))
-
-# ----------- IDENTIFY DMF / DMA / NH3 COLUMNS -------------
-example_df = ensembles_obs[list(ensembles_obs.keys())[0]]
-
-dmf_cols = [c for c in example_df.columns if c.lower().startswith("dmf_")]
-dma_cols = [c for c in example_df.columns if c.lower().startswith("dma_")]
-nh3_cols = [c for c in example_df.columns if c.lower().startswith("nh3_")]
-
-print("DMF columns:", dmf_cols)
-print("DMA columns:", dma_cols)
-print("NH3 columns:", nh3_cols)
-
-# ------------------------------------------------------------
-#     CREATE 4×3 SUBPLOTS: EACH ROW = ENSEMBLE, EACH COL = VARIABLE
-# ------------------------------------------------------------
-runs = list(ensembles_obs.keys())
-rows = len(runs)           # one row per ensemble
-cols = 3                   # DMF / DMA / NH3
-
-fig, axes = plt.subplots(rows, cols, figsize=(18, 4 * rows))
-titles = ["DMF", "DMA", "NH₃"]
-col_sets = [dmf_cols, dma_cols, nh3_cols]
-
-# ensure axes is 2D
-if rows == 1:
-    axes = np.array([axes])
-
-for r, run in enumerate(runs):
-    df = ensembles_obs[run]
-
-    for c, (title, col_set) in enumerate(zip(titles, col_sets)):
-        ax = axes[r, c]
-
-        # spaghetti plot of this variable for this ensemble
-        for _, row in df.iterrows():
-            ax.plot(time, row[col_set].values, alpha=0.25, linewidth=0.6)
-
-        ax.set_title(f"{title} – Ensemble {run}")
-        ax.set_xlabel("Time")
-        ax.set_ylabel("Conc. (mol/L)")
-        ax.grid(True, alpha=0.2)
-
-plt.tight_layout()
-out_file = os.path.join(script_dir, "R3_post_processing/R3_by_ensemble_and_variable.png")
-plt.savefig(out_file, dpi=300)
-
-print(f"Saved figure: {out_file}")
-
-
-from scipy.stats import sem, t
-import numpy as np
-
+# ----------------- HELPER FUNCTION -----------------
 def compute_confidence_interval(data, confidence=0.99):
-    """
-    Compute mean and confidence interval across ensembles.
-    
-    Parameters
-    ----------
-    data : array-like, shape (n_realizations, n_timepoints)
-        Numeric array of ensemble results.
-    confidence : float
-        Confidence level (default 0.95).
-        
-    Returns
-    -------
-    mean : ndarray
-        Mean across ensembles at each time point.
-    lower : ndarray
-        Lower bound of the confidence interval.
-    upper : ndarray
-        Upper bound of the confidence interval.
-    """
-    data_array = np.array(data, dtype=float)  # ensure numeric
+    data_array = np.array(data, dtype=float)
     mean = np.mean(data_array, axis=0)
     n = data_array.shape[0]
     se = sem(data_array, axis=0)
     h = se * t.ppf((1 + confidence) / 2., n - 1)
     return mean, mean - h, mean + h
 
+# ----------------- SPAGHETTI PLOT -----------------
+fig, axes = plt.subplots(1, len(titles), figsize=(6*len(titles), 5))
+if len(titles) == 1:
+    axes = [axes]
 
-# ---------------- PLOTTING -----------------
-fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-titles = ["DMF", "DMA", "NH₃"]
-all_col_sets = [dmf_cols, dma_cols, nh3_cols]
-
-for ax, col_set, title in zip(axes, all_col_sets, titles):
-
-    # Collect all ensemble realizations into numeric 2D array
-    ensemble_data = []
-    for run, df in ensembles_obs.items():
+for ax, col_set, title, meas_name in zip(axes, all_col_sets, titles, measured_names):
+    for df in ensembles_obs.values():
         for _, row in df.iterrows():
-            values = np.array(row[col_set].values, dtype=float).flatten()
-            ensemble_data.append(values)
-    ensemble_data = np.vstack(ensemble_data)
+            ax.plot(time, row[col_set].values, alpha=0.25, linewidth=0.7, color='blue')
+    if meas_name in measured.columns:
+        ax.scatter(measured["Time"], measured[meas_name], color='red', s=50, label="Measured")
+    ax.set_title(f"{title} – Spaghetti Plot")
+    ax.set_xlabel("Time")
+    ax.set_ylabel("Conc. (mol/L)")
+    ax.grid(True, alpha=0.2)
+    ax.legend()
 
-    # Compute mean and 95% CI
+plt.tight_layout()
+plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_spaghetti_plot_with_measured.png"), dpi=300)
+
+# ----------------- MEAN + CI PLOT -----------------
+fig, axes = plt.subplots(1, len(titles), figsize=(6*len(titles), 5))
+if len(titles) == 1:
+    axes = [axes]
+
+for ax, col_set, title, meas_name in zip(axes, all_col_sets, titles, measured_names):
+    ensemble_data = []
+    for df in ensembles_obs.values():
+        for _, row in df.iterrows():
+            ensemble_data.append(row[col_set].to_numpy(dtype=float))
     mean, lower, upper = compute_confidence_interval(ensemble_data)
-
-    # Plot mean + CI
     ax.plot(time, mean, color='blue', linewidth=2, label='Mean')
     ax.fill_between(time, lower, upper, color='blue', alpha=0.3, label='95% CI')
-
-    # Plot measured values (converted to mol/L)
-    measured_col = title if title != "NH₃" else "NH3"
-    if measured_col in measured.columns:
-        ax.scatter(measured["Time"], measured[measured_col], color='red', s=50, zorder=5, label='Measured')
-
+    if meas_name in measured.columns:
+        ax.scatter(measured["Time"], measured[meas_name], color='red', s=50, label="Measured")
     ax.set_title(f"{title} – Mean + 95% CI")
     ax.set_xlabel("Time")
-    ax.set_ylabel("Concentration (mol/L)")
+    ax.set_ylabel("Conc. (mol/L)")
     ax.grid(True, alpha=0.2)
     ax.legend()
 
 plt.tight_layout()
 plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_mean_CI_with_measured_mol.png"), dpi=300)
 
-# ---------------- UNIFIED PLOT -----------------
+# ----------------- UNIFIED MEAN + CI -----------------
 fig, ax = plt.subplots(figsize=(10, 6))
 
-titles = ["DMF", "DMA", "NH₃"]
-all_col_sets = [dmf_cols, dma_cols, nh3_cols]
+# ----------------- SETTINGS -----------------
+# Path to results.sel
+results_file = os.path.join(script_dir, "Results.sel")
+results = pd.read_csv(results_file, delim_whitespace=True, header=None)
+# Read results.sel
+if ZHOU==True:# Select the NH3 column
+    nh3_values = results.iloc[:, 8]
+    # Convert to numeric, forcing errors to NaN
+    nh3_values = pd.to_numeric(nh3_values, errors='coerce')
+    # Drop NaNs (like the header row)
+    nh3_values = nh3_values.dropna().reset_index(drop=True)
+    # Subset to 7 measured points
+    nh3_subset = nh3_values.iloc[:len(time)]
+    print (nh3_subset)
+if SWAROOP==True:# Select the MMA column
+    mma_values = results.iloc[:, 5]
+    # Convert to numeric, forcing errors to NaN
+    mma_values = pd.to_numeric(mma_values, errors='coerce')
+    # Drop NaNs (like the header row)
+    mma_values = mma_values .dropna().reset_index(drop=True)
+    # Subset to 9 measured points
+    mma_subset = mma_values .iloc[:len(time)]
+    print (mma_subset)
+# Now plot using the same 'time' array as for DMF/DMA/MMA
 
-# Your requested colors
-colors = ["black", "red", "orange"]
-
-# Column names in measured dataset
-measured_names = ["DMF", "DMA", "NH3"]
-
-for title, col_set, color, meas_name in zip(titles, all_col_sets, colors, measured_names):
-
-    # Collect ensemble realizations → numeric 2D array
+for col_set, title, meas_name, color in zip(all_col_sets, titles, measured_names, colors):
     ensemble_data = []
-    for run, df in ensembles_obs.items():
+    for df in ensembles_obs.values():
         for _, row in df.iterrows():
-            values = np.array(row[col_set].values, dtype=float).flatten()
-            ensemble_data.append(values)
+            ensemble_data.append(row[col_set].to_numpy(dtype=float))
     ensemble_data = np.vstack(ensemble_data)
-
-    # Compute mean and 95% CI
     mean, lower, upper = compute_confidence_interval(ensemble_data)
-
-    # Plot mean + CI
     ax.plot(time, mean, color=color, linewidth=2, label=f"{title} mean")
     ax.fill_between(time, lower, upper, color=color, alpha=0.25, label=f"{title} 95% CI")
 
-    # Plot measured values if available
     if meas_name in measured.columns:
-        ax.scatter(
-            measured["Time"],
-            measured[meas_name],
-            color=color,
-            s=40,
-            zorder=5,
-            label=f"{title} measured"
-        )
+        ax.scatter(measured["Time"], measured[meas_name], color=color, s=40, label=f"{title} measured")
 
-# Final formatting
-#ax.set_title("DMF, DMA, NH₃ – Mean + 95% CI with Measured Data")
+if ZHOU==True:
+    #ax.plot(time, nh3_subset, color='orange', linestyle="-", linewidth=2,label=r'NH$_3$')
+    # Assuming nh3_subset is a pandas Series of length 7
+    nh3_mean = nh3_subset.to_numpy(dtype=float)
+
+    # Define an artificial 95% confidence interval (e.g., ±10% of the value)
+    ci_fraction = 0.10  # 10%
+    nh3_lower = nh3_mean * (1 - ci_fraction)
+    nh3_upper = nh3_mean * (1 + ci_fraction)
+
+    # Plot mean and CI
+    ax.plot(time, nh3_mean, color='orange', linewidth=2, label=r'NH$_3$ mean')
+    ax.fill_between(time, nh3_lower, nh3_upper, color='orange', alpha=0.25, label=r'NH$_3$ 95% CI')
+
+if SWAROOP==True:
+    mma_mean = mma_subset.to_numpy(dtype=float)
+
+    # Define an artificial 95% confidence interval (e.g., ±10% of the value)
+    ci_fraction = 0.10  # 10%
+    mma_lower = mma_mean* (1 - ci_fraction)
+    mma_upper = mma_mean * (1 + ci_fraction)
+
+    # Plot mean and CI
+    ax.plot(time, mma_mean, color='blue', linewidth=2, label=r'MMA mean')
+    ax.fill_between(time, mma_lower, mma_upper, color='blue', alpha=0.25, label=r'MMA 95% CI')
+
 ax.set_xlabel("Time", fontsize=14)
 ax.set_ylabel("Concentration (mol/L)", fontsize=14)
 ax.grid(True, alpha=0.2)
 
-# Place legend outside plot (right side)
+#ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=4, fontsize=14, framealpha=0.9)
+
+# ---------------- Legend with NH3 in last column ----------------
+handles, labels = ax.get_legend_handles_labels()
+
+# Replace 'NH3' in labels with subscript
+new_labels = []
+for lbl in labels:
+    if "NH3" in lbl:
+        new_labels.append(lbl.replace("NH3", r"NH$_3$"))
+    else:
+        new_labels.append(lbl)
+
+# Determine the desired order:
+# We'll add a dummy entry for column 3
+desired_order = []
+
+# Collect indices for DMF, DMA, MMA
+for name in ["DMF", "DMA", "MMA"]:
+    desired_order += [i for i, lbl in enumerate(labels) if name in lbl]
+
+# Add a dummy handle for empty column 3
+from matplotlib.lines import Line2D
+dummy_handle = Line2D([0], [0], linestyle="none", color="none")
+handles.append(dummy_handle)
+new_labels.append("")  # empty label
+
+# Add NH3 indices
+desired_order += [len(handles)-1]  # the dummy comes before NH3
+
+# Add NH3 actual handles (mean + CI + measured)
+for i, lbl in enumerate(labels):
+    if "NH3" in lbl:
+        desired_order.append(i)
+
+# Apply legend
 ax.legend(
+    [handles[i] for i in desired_order],
+    [new_labels[i] for i in desired_order],
     loc="upper center",
-    bbox_to_anchor=(0.5, -0.20),   # lower position for more space
-    ncol=3,                        # 3 columns → 6 labels → 2 rows
-    fontsize=16,
-    framealpha=0.9,
-    facecolor="white"
+    bbox_to_anchor=(0.5, -0.2),
+    ncol=4,
+    fontsize=14,
+    framealpha=0.9
 )
+
+
 
 plt.tight_layout()
 plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_mean_CI_all_species.png"), dpi=300)

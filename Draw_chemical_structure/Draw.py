@@ -23,15 +23,21 @@ for name, smiles in molecules.items():
     mol_h = Chem.AddHs(mol)
     rdDepictor.Compute2DCoords(mol_h)
 
-    # --- PNG output ---
+    # --- PNG output in black ---
     png_path = script_dir / f"{name}.png"
-    img = Draw.MolToImage(mol_h, size=(400, 200))
-    img.save(png_path)
+    drawer = rdMolDraw2D.MolDraw2DCairo(400, 200)
+    opts = drawer.drawOptions()
+    opts.useBWAtomPalette()  # <--- all atoms & bonds in black
+    rdMolDraw2D.PrepareAndDrawMolecule(drawer, mol_h)
+    drawer.FinishDrawing()
+    drawer.WriteDrawingText(str(png_path))
     print(f"Saved PNG: {png_path}")
 
-    # --- SVG output ---
+    # --- SVG output in black ---
     svg_path = script_dir / f"{name}.svg"
     drawer = rdMolDraw2D.MolDraw2DSVG(450, 180)
+    opts = drawer.drawOptions()
+    opts.useBWAtomPalette()  # <--- all atoms & bonds in black
     rdMolDraw2D.PrepareAndDrawMolecule(drawer, mol_h)
     drawer.FinishDrawing()
     svg = drawer.GetDrawingText()

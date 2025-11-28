@@ -1,0 +1,9 @@
+Input file: /Users/anneimig/DMF_model/PEST++IES/Swaroop_first/Swaroop_first.phrq
+
+Output file: /Users/anneimig/DMF_model/PEST++IES/Swaroop_first/output/output.out
+
+Database file: /Users/anneimig/Documents/Software_executables/Phreeqc/phreeqc-3.5.0-14000/database/phreeqc_P.dat
+
+
+Initializing...                                                                 
+WARNING: Negative moles in solution 0 for Amm, -3.648913e-04. Recovering...

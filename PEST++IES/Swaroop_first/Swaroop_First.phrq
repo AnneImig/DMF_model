@@ -46,18 +46,18 @@ KINETICS
 Dmf_Dma
     -formula  Dmf -1 Dma 1 H20 2 Form 1  #H+ 3 
     # K1 = mol / h  
-     -parms   0.289271  
+     -parms   1.673374  
      -steps   0 24*1      #24h 
 Dma_Mma
     -formula Dma  -1 Mma  1 Formaldehyde 1
     # K2 = mol / day 
-     -parms   0.046289  
+     -parms   5.84e-04  
 
 Mma_Ammonia
     -formula  Mma  -1 Formaldehyde 1 Amm 1
     #1 H+ 1
     # K2 = mol / day 
-     -parms   3.085623  
+     -parms   3.05e-04  
 
 
 RATES
@@ -89,6 +89,8 @@ Mma_Ammonia
 15 put(rate,03)
 20 SAVE moles
 -end
+
+
 SELECTED_OUTPUT  1 # 1 by default
   -file output/DMF.sel
 -reset false
@@ -126,3 +128,4 @@ USER_PUNCH 5
 50  PUNCH  get(01) get(02)  get(03) 
     -end
 END
+

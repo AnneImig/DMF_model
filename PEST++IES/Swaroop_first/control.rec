@@ -11,9 +11,9 @@ version: 5.2.19
 binary compiled on Jun 13 2025 at 17:24:56
 
 using control file: "control.pst"
-in directory: "/Users/anneimig/DMF_model/PEST++IES"
+in directory: "/Users/anneimig/DMF_model/PEST++IES/Swaroop_first"
 on host: "Annes-MacBook-Air.local"
-started at 11/25/25 17:11:03
+started at 11/28/25 10:44:01
 
 Note: 3 unused lines in pest control file:
   -->  line number 6: '10 -3 0.3 0.01 10 0 lamforgive noderforgive' 
@@ -213,7 +213,7 @@ ies_reg_factor: 0
 ies_verbose_level: 1
 ies_use_prior_scaling: 0
 ies_num_reals: 200
-ies_bad_phi: 0.00035
+ies_bad_phi: 0.001
 ies_bad_phi_sigma: 1.79769e+308
 ies_include_base: 1
 ies_use_empirical_prior: 0
@@ -285,9 +285,9 @@ Model command line(s):-
 
 Model interface files:-
     template files:
-      Swaroop_First.tpl
+      Swaroop_first.tpl
     model input files:
-      Swaroop_First.phrq
+      Swaroop_first.phrq
 
     instruction files:
       DMA.ins
@@ -309,32 +309,32 @@ mmanh3              RELATIVE                     0.01                        0  
 
 Parameter information
 NAME         TRANSFORMATION        CHANGE LIMIT  INITIAL VALUE    LOWER BOUND    UPPER BOUND        GROUP          SCALE         OFFSET  DERIVATIVE COMMAND
-dmfdma       none                  RELATIVE           0.27            0.1            0.6       dmfdma              1              0                   1
-dmamma       none                  RELATIVE          0.091         0.0005            0.2       dmamma              1              0                   1
-mmanh3       none                  RELATIVE              3              1              5       mmanh3              1              0                   1
+dmfdma       none                  RELATIVE           0.27           0.01              4       dmfdma              1              0                   1
+dmamma       none                  RELATIVE           0.09         0.0005              1       dmamma              1              0                   1
+mmanh3       none                  RELATIVE           0.01         0.0001              8       mmanh3              1              0                   1
 
 
 
 Observation information
 NAME                                VALUE                GROUP              WEIGHT
-dmf_0                           0.0054727                 gdmf                0.57
-dmf_1                          0.00478862                 gdmf                0.57
-dmf_2                          0.00287317                 gdmf                0.57
-dmf_3                          0.00109454                 gdmf                0.57
-dmf_4                          0.00054727                 gdmf                0.57
-dmf_5                         6.84088e-05                 gdmf                0.57
-dmf_6                                   0                 gdmf                0.57
-dmf_7                                   0                 gdmf                0.57
-dmf_8                                   0                 gdmf                0.57
-dma_0                                   0                 gdma                3.47
-dma_1                         0.000665484                 gdma                3.47
-dma_2                          0.00177462                 gdma                3.47
-dma_3                          0.00310559                 gdma                3.47
-dma_4                          0.00332742                 gdma                3.47
-dma_5                          0.00166371                 gdma                3.47
-dma_6                         0.000665484                 gdma                3.47
-dma_7                         0.000621118                 gdma                3.47
-dma_8                         0.000598935                 gdma                3.47
+dmf_0                           0.0054727                 gdmf                   1
+dmf_1                          0.00478862                 gdmf                   1
+dmf_2                          0.00287317                 gdmf                   1
+dmf_3                          0.00109454                 gdmf                   1
+dmf_4                          0.00054727                 gdmf                   1
+dmf_5                         6.84088e-05                 gdmf                   1
+dmf_6                                   0                 gdmf                   1
+dmf_7                                   0                 gdmf                   1
+dmf_8                                   0                 gdmf                   1
+dma_0                                   0                 gdma                   1
+dma_1                         0.000665484                 gdma                   1
+dma_2                          0.00177462                 gdma                   1
+dma_3                          0.00310559                 gdma                   1
+dma_4                          0.00332742                 gdma                   1
+dma_5                          0.00166371                 gdma                   1
+dma_6                         0.000665484                 gdma                   1
+dma_7                         0.000621118                 gdma                   1
+dma_8                         0.000598935                 gdma                   1
 nh3_0                                   0                 gnh3                   1
 nh3_1                         0.000117647                 gnh3                   1
 nh3_2                         0.000588235                 gnh3                   1
@@ -387,7 +387,7 @@ PEST SVD Information
 ...initializing observation noise covariance matrix
 ...obscov loaded  from observation weights
 ...using reg_factor:  0
-...using bad_phi:  0.00035
+...using bad_phi:  0.001
 ...drawing parameter realizations:  200
 ...not using prior parameter covariance matrix scaling
 
@@ -411,42 +411,39 @@ checking for denormal values in obs + noise ensemble
 
   ---  pre-drop initial phi summary  ---  
        phi type           mean            std            min            max
-         actual    0.000216354    0.000262224    4.59519e-05     0.00137828
+         actual    0.000165095    5.92092e-05    1.37277e-05    0.000230772
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000203  0.000247  4.36e-05   0.00131      93.7      2.83
-gnh3       9          0  1.11e-05  1.58e-05  1.21e-06  6.82e-05      4.62      2.94
-gdmf       9          5  2.18e-06  1.27e-06  5.18e-07  5.86e-06      1.67      1.03
+gdmf       9          2  6.17e-05  5.04e-05  1.78e-06  0.000123        35      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.49e-05  4.07e-05  4.05e-06   0.00013      27.7      19.4
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
 
 ...checking for prior-data conflict
 
-  ---  WARNING: 6 non-zero weighted observations are in conflict with the prior simulated ensemble.
+  ---  WARNING: 2 non-zero weighted observations are in conflict with the prior simulated ensemble.
   ---  
 ...see control.0.pdc.csv for listing of conflicted observations
 
 ...  WARNING: Prior-data conflict detected.  Continuing with IES parameter
            adjustment will likely result in parameter and forecast bias.
 
-
-  ---  dropping realizations as bad:  30  ---  
-...dropping par:obs realizations: 4 : 4 , 9 : 9 , 18 : 18 , 26 : 26 , 35 : 35 , 42 : 42 , 51 : 51 , 52 : 52 , 71 : 71 , 75 : 75 , 81 : 81 , 89 : 89 , 92 : 92 , 110 : 110 , 116 : 116 , 124 : 124 , 130 : 130 , 133 : 133 , 138 : 138 , 139 : 139 , 145 : 145 , 149 : 149 , 150 : 150 , 151 : 151 , 155 : 155 , 158 : 158 , 174 : 174 , 185 : 185 , 188 : 188 , 197 : 197 , 
 ...saved adjusted weight ensemble to  control.adjusted.weights.csv
 
   ---  initial phi summary  ---  
        phi type           mean            std            min            max
-         actual    0.000123443    6.67132e-05    4.59519e-05    0.000348668
+         actual    0.000165095    5.92092e-05    1.37277e-05    0.000230772
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000116  6.26e-05  4.36e-05  0.000326      93.6      3.02
-gnh3       9          0  5.81e-06  5.94e-06  1.21e-06  3.72e-05      4.49       3.1
-gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.944
+gdmf       9          2  6.17e-05  5.04e-05  1.78e-06  0.000123        35      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.49e-05  4.07e-05  4.05e-06   0.00013      27.7      19.4
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -457,30 +454,30 @@ gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.
 
   ---  starting solve for iteration: 1  ---  
 ...current lambda:  1e-06
-subset defined as a percentage of ensemble size, using 17 realizations for subset
+subset defined as a percentage of ensemble size, using 20 realizations for subset
 
 ...starting calcs for glm factor 1.2e-06
 see .log file for more details
 ...finished calcs for: 1.2e-06
 
   ---  running upgrade ensembles  ---  
-...subset idx:pe real name:  0:0, 2:2, 22:25, 24:28, 43:49, 49:57, 64:73, 66:76, 74:85, 86:99, 117:135, 120:140, 133:159, 136:162, 155:182, 167:196, 169:BASE, 
-...subset idx:oe real name:  0:0, 2:2, 22:25, 24:28, 43:49, 49:57, 64:73, 66:76, 74:85, 86:99, 117:135, 120:140, 133:159, 136:162, 155:182, 167:196, 169:BASE, 
+...subset idx:pe real name:  0:0, 2:2, 7:7, 26:26, 29:29, 51:51, 58:58, 75:75, 78:78, 80:80, 87:87, 101:101, 118:118, 138:138, 142:142, 156:156, 160:160, 183:183, 197:197, 199:BASE, 
+...subset idx:oe real name:  0:0, 2:2, 7:7, 26:26, 29:29, 51:51, 58:58, 75:75, 78:78, 80:80, 87:87, 101:101, 118:118, 138:138, 142:142, 156:156, 160:160, 183:183, 197:197, 199:BASE, 
 
   ---  evaluating upgrade ensembles  ---  
-...last mean:  0.000123443
-...last stdev:  6.67132e-05
+...last mean:  0.000165095
+...last stdev:  5.92092e-05
 
   ---  phi summary for lambda, scale fac:1.2e-06 , 0.75 ,   ---  
        phi type           mean            std            min            max
-         actual    0.000100505    6.68611e-05    4.69859e-05    0.000334493
+         actual     0.00014043    7.24207e-05    2.20906e-05    0.000230245
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          3  9.39e-05  5.86e-05  4.45e-05  0.000295      94.3      1.92
-gnh3       9          0  4.68e-06  8.45e-06   1.3e-06  3.72e-05      3.74      2.29
-gdmf       9          5   1.9e-06  1.16e-06  5.32e-07  3.84e-06      1.95     0.925
+gnh3       9          0  5.35e-05  2.36e-05  2.73e-06  6.86e-05      41.5      23.7
+gdma       9          0  4.47e-05  4.56e-05  4.05e-06  0.000129      30.6      20.7
+gdmf       9          3  4.23e-05  4.86e-05  2.25e-06  0.000123      27.9      23.8
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -488,14 +485,14 @@ gdmf       9          5   1.9e-06  1.16e-06  5.32e-07  3.84e-06      1.95     0.
 
   ---  phi summary for lambda, scale fac:1.2e-06 , 1 ,   ---  
        phi type           mean            std            min            max
-         actual    0.000100504    6.68596e-05    4.69859e-05    0.000334486
+         actual    0.000140413    7.24058e-05    2.20905e-05    0.000230234
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          3  9.39e-05  5.86e-05  4.45e-05  0.000295      94.3      1.92
-gnh3       9          0  4.68e-06  8.45e-06   1.3e-06  3.72e-05      3.74      2.29
-gdmf       9          5   1.9e-06  1.16e-06  5.32e-07  3.84e-06      1.95     0.925
+gnh3       9          0  5.35e-05  2.36e-05  2.73e-06  6.86e-05      41.5      23.7
+gdma       9          0  4.47e-05  4.56e-05  4.05e-06  0.000129      30.6      20.7
+gdmf       9          3  4.23e-05  4.85e-05  2.25e-06  0.000123      27.9      23.8
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -503,14 +500,14 @@ gdmf       9          5   1.9e-06  1.16e-06  5.32e-07  3.84e-06      1.95     0.
 
   ---  phi summary for lambda, scale fac:1.2e-06 , 1.1 ,   ---  
        phi type           mean            std            min            max
-         actual    0.000100504     6.6857e-05    4.69859e-05    0.000334474
+         actual    0.000140407    7.24008e-05    2.20905e-05    0.000230234
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          3  9.39e-05  5.86e-05  4.45e-05  0.000295      94.3      1.92
-gnh3       9          0  4.68e-06  8.45e-06   1.3e-06  3.72e-05      3.74      2.29
-gdmf       9          5   1.9e-06  1.16e-06  5.32e-07  3.84e-06      1.95     0.925
+gnh3       9          0  5.35e-05  2.36e-05  2.73e-06  6.86e-05      41.5      23.7
+gdma       9          0  4.47e-05  4.56e-05  4.05e-06  0.000129      30.6      20.7
+gdmf       9          3  4.22e-05  4.85e-05  2.25e-06  0.000123      27.9      23.8
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -518,37 +515,37 @@ gdmf       9          5   1.9e-06  1.16e-06  5.32e-07  3.84e-06      1.95     0.
 
   ---  phi summary for best lambda, scale fac: 1.2e-06 , 1.1 ,   ---  
        phi type           mean            std            min            max
-         actual    0.000100504     6.6857e-05    4.69859e-05    0.000334474
+         actual    0.000140407    7.24008e-05    2.20905e-05    0.000230234
 
 
 
   ---  running remaining realizations for best lambda, scale:1.2e-06 , 1.1 ,   ---  
 ...phi summary for entire ensemble using lambda,scale_fac 1.2e-06 , 1.1 , 
        phi type           mean            std            min            max
-         actual    0.000123436    6.67034e-05     4.5951e-05    0.000348614
+         actual    0.000164989    5.91406e-05    1.37267e-05    0.000230735
 
 
-...last best mean phi * acceptable phi factor:  0.000129615
-...current best mean phi:  0.000123436
+...last best mean phi * acceptable phi factor:  0.000173349
+...current best mean phi:  0.000164989
 
   ---  updating parameter ensemble  ---  
 
   ---  updating lambda to  9e-07  ---  
 
   ---  EnsembleMethod iteration 1 report  ---  
-   number of active realizations:  170
-   number of model runs:           404
+   number of active realizations:  200
+   number of model runs:           440
       current obs ensemble saved to control.1.obs.csv
       current par ensemble saved to control.1.par.csv
        phi type           mean            std            min            max
-         actual    0.000123436    6.67034e-05     4.5951e-05    0.000348614
+         actual    0.000164989    5.91406e-05    1.37267e-05    0.000230735
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000116  6.26e-05  4.36e-05  0.000326      93.6      3.02
-gnh3       9          0  5.81e-06  5.94e-06  1.21e-06  3.72e-05      4.49       3.1
-gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.944
+gdmf       9          2  6.16e-05  5.03e-05  1.78e-06  0.000123        35      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.49e-05  4.07e-05  4.05e-06   0.00013      27.7      19.4
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -556,9 +553,9 @@ gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.
 
    ---  parameter group change summmary  ---    
 group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
-dmfdma      1     2.451    2.139          1     0.5882         19      11.18           0
-mmanh3      1     1.071   0.0714          6      3.529          4      2.353           0
-dmamma      1     14.17     14.9          2      1.176          0          0           0
+dmfdma      1  0.001962 0.003443          0          0         79       39.5           0
+dmamma      1  0.001379 0.001522          0          0         32         16           0
+mmanh3      1  0.001685  0.00029          0          0          0          0           0
     Note: parameter change summary sorted according to percent at bounds.
     Note: the parameter change statistics implicitly include the effect of 
           realizations that have failed or have been dropped.
@@ -571,38 +568,38 @@ dmamma      1     14.17     14.9          2      1.176          0          0    
 ...phiredstp:  0.0005
 ...nphistp:  4
 ...nphinored (also used for consecutive bad lambda cycles):  4
-...best mean phi sequence: 0.000123443 , 0.000123436 , 
-...best phi yet:  0.000123436
+...best mean phi sequence: 0.000165095 , 0.000164989 , 
+...best phi yet:  0.000164989
 ...number of consecutive bad lambda testing cycles:  0
-...number of iterations satisfying phiredstp criteria:  2
+...number of iterations satisfying phiredstp criteria:  1
 ...number of iterations since best yet mean phi:  0
 
   ---  starting solve for iteration: 2  ---  
 ...current lambda:  9e-07
-subset defined as a percentage of ensemble size, using 17 realizations for subset
+subset defined as a percentage of ensemble size, using 20 realizations for subset
 
 ...starting calcs for glm factor 1.08e-06
 see .log file for more details
 ...finished calcs for: 1.08e-06
 
   ---  running upgrade ensembles  ---  
-...subset idx:pe real name:  0:0, 2:25, 6:73, 10:135, 16:BASE, 20:6, 22:8, 40:31, 58:54, 68:65, 76:77, 82:84, 96:102, 99:105, 100:106, 115:123, 153:177, 
-...subset idx:oe real name:  0:0, 2:25, 6:73, 10:135, 16:BASE, 20:6, 22:8, 40:31, 58:54, 68:65, 76:77, 82:84, 96:102, 99:105, 100:106, 115:123, 153:177, 
+...subset idx:pe real name:  2:7, 12:118, 19:BASE, 21:3, 24:6, 26:9, 29:12, 47:32, 49:34, 68:54, 85:72, 86:73, 90:79, 97:88, 99:90, 106:97, 113:105, 117:109, 135:128, 180:177, 
+...subset idx:oe real name:  2:7, 12:118, 19:BASE, 21:3, 24:6, 26:9, 29:12, 47:32, 49:34, 68:54, 85:72, 86:73, 90:79, 97:88, 99:90, 106:97, 113:105, 117:109, 135:128, 180:177, 
 
   ---  evaluating upgrade ensembles  ---  
-...last mean:  0.000123436
-...last stdev:  6.67034e-05
+...last mean:  0.000164989
+...last stdev:  5.91406e-05
 
   ---  phi summary for lambda, scale fac:1.08e-06 , 0.75 ,   ---  
        phi type           mean            std            min            max
-         actual    0.000138802    7.09829e-05    6.78828e-05    0.000329899
+         actual    0.000163967    6.49452e-05    3.21048e-05    0.000228404
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000131  6.84e-05  6.21e-05  0.000316      94.2      2.32
-gnh3       9          0  5.09e-06  3.12e-06  1.68e-06  1.19e-05       3.9      2.41
-gdmf       9          5  2.54e-06  1.26e-06  5.38e-07  4.41e-06      1.95     0.876
+gdmf       9          4  6.37e-05  4.96e-05  4.97e-06  0.000122      37.5      21.1
+gnh3       9          0  5.81e-05  2.07e-05  1.65e-06  6.86e-05      36.5      17.2
+gdma       9          0  4.22e-05  4.21e-05   6.2e-06  0.000129        26      18.6
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -610,14 +607,14 @@ gdmf       9          5  2.54e-06  1.26e-06  5.38e-07  4.41e-06      1.95     0.
 
   ---  phi summary for lambda, scale fac:1.08e-06 , 1 ,   ---  
        phi type           mean            std            min            max
-         actual    0.000138801    7.09803e-05    6.78809e-05    0.000329888
+         actual    0.000163943    6.49291e-05    3.21047e-05     0.00022839
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000131  6.84e-05  6.21e-05  0.000316      94.2      2.32
-gnh3       9          0  5.09e-06  3.12e-06  1.68e-06  1.19e-05       3.9      2.41
-gdmf       9          5  2.54e-06  1.26e-06  5.38e-07  4.41e-06      1.95     0.876
+gdmf       9          4  6.36e-05  4.96e-05  4.97e-06  0.000122      37.5      21.1
+gnh3       9          0  5.81e-05  2.07e-05  1.65e-06  6.86e-05      36.5      17.2
+gdma       9          0  4.22e-05  4.21e-05   6.2e-06  0.000129        26      18.6
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -625,57 +622,52 @@ gdmf       9          5  2.54e-06  1.26e-06  5.38e-07  4.41e-06      1.95     0.
 
   ---  phi summary for lambda, scale fac:1.08e-06 , 1.1 ,   ---  
        phi type           mean            std            min            max
-         actual    0.000138799    7.09792e-05    6.78809e-05    0.000329888
+         actual    0.000163933    6.49223e-05    3.21042e-05    0.000228382
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000131  6.84e-05  6.21e-05  0.000316      94.2      2.32
-gnh3       9          0  5.09e-06  3.12e-06  1.68e-06  1.19e-05       3.9      2.41
-gdmf       9          5  2.54e-06  1.26e-06  5.38e-07  4.41e-06      1.95     0.876
+gdmf       9          4  6.36e-05  4.96e-05  4.97e-06  0.000122      37.5      21.1
+gnh3       9          0  5.81e-05  2.07e-05  1.65e-06  6.86e-05      36.5      17.2
+gdma       9          0  4.22e-05  4.21e-05   6.2e-06  0.000129        26      18.6
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
 
 
-  ---  best subset mean phi  (0.000138799) greater than acceptable phi : 0.000129608  ---  
-...updating realizations with reduced phi
-updating pe:oe real =0:0, current phi: new phi  =8.45274e-05:8.45263e-05
-updating pe:oe real =25:25, current phi: new phi  =0.000118717:0.000118716
-updating pe:oe real =73:73, current phi: new phi  =7.91638e-05:7.91635e-05
-updating pe:oe real =135:135, current phi: new phi  =0.000147914:0.0001479
-updating pe:oe real =BASE:BASE, current phi: new phi  =7.66406e-05:7.66412e-05
-updating pe:oe real =6:6, current phi: new phi  =0.000156471:0.000156462
-updating pe:oe real =8:8, current phi: new phi  =0.00023748:0.000237452
-updating pe:oe real =31:31, current phi: new phi  =0.000103561:0.000103557
-updating pe:oe real =54:54, current phi: new phi  =6.78832e-05:6.78809e-05
-updating pe:oe real =65:65, current phi: new phi  =0.000102401:0.0001024
-updating pe:oe real =77:77, current phi: new phi  =0.000122893:0.000122893
-updating pe:oe real =84:84, current phi: new phi  =8.19435e-05:8.19434e-05
-updating pe:oe real =102:102, current phi: new phi  =0.000115758:0.000115758
-updating pe:oe real =105:105, current phi: new phi  =0.000142787:0.000142782
-updating pe:oe real =106:106, current phi: new phi  =0.000246191:0.000246151
-updating pe:oe real =123:123, current phi: new phi  =0.000145476:0.000145476
-updating pe:oe real =177:177, current phi: new phi  =0.000329936:0.000329888
-...current best mean phi (after updating reduced-phi reals):  0.000123435
+  ---  phi summary for best lambda, scale fac: 1.08e-06 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000163933    6.49223e-05    3.21042e-05    0.000228382
 
-  ---  partial update improved phi stats, updating lambda to  8.1e-07  ---  
-...returning to upgrade calculations...
+
+
+  ---  running remaining realizations for best lambda, scale:1.08e-06 , 1.1 ,   ---  
+...phi summary for entire ensemble using lambda,scale_fac 1.08e-06 , 1.1 , 
+       phi type           mean            std            min            max
+         actual    0.000164882    5.90712e-05     1.3726e-05     0.00023069
+
+
+...last best mean phi * acceptable phi factor:  0.000173238
+...current best mean phi:  0.000164882
+
+  ---  updating parameter ensemble  ---  
+
+  ---  updating lambda to  8.1e-07  ---  
 
   ---  EnsembleMethod iteration 2 report  ---  
-   number of active realizations:  170
-   number of model runs:           455
+   number of active realizations:  200
+   number of model runs:           680
       current obs ensemble saved to control.2.obs.csv
       current par ensemble saved to control.2.par.csv
        phi type           mean            std            min            max
-         actual    0.000123435    6.67017e-05     4.5951e-05    0.000348614
+         actual    0.000164882    5.90712e-05     1.3726e-05     0.00023069
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000115  6.26e-05  4.36e-05  0.000326      93.6      3.02
-gnh3       9          0  5.81e-06  5.94e-06  1.21e-06  3.72e-05      4.49       3.1
-gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.944
+gdmf       9          2  6.15e-05  5.02e-05  1.78e-06  0.000122        35      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06   0.00013      27.7      19.4
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -683,9 +675,9 @@ gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.
 
    ---  parameter group change summmary  ---    
 group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
-dmfdma      1     2.451     2.14          1     0.5882         19      11.18           0
-mmanh3      1     1.071  0.07139          6      3.529          4      2.353           0
-dmamma      1     14.17     14.9          2      1.176          0          0           0
+dmfdma      1  0.003919 0.006883          0          0         79       39.5           0
+dmamma      1  0.002759 0.003044          0          0         30         15           0
+mmanh3      1  0.0033710.0005802          0          0          0          0           0
     Note: parameter change summary sorted according to percent at bounds.
     Note: the parameter change statistics implicitly include the effect of 
           realizations that have failed or have been dropped.
@@ -698,38 +690,38 @@ dmamma      1     14.17     14.9          2      1.176          0          0    
 ...phiredstp:  0.0005
 ...nphistp:  4
 ...nphinored (also used for consecutive bad lambda cycles):  4
-...best mean phi sequence: 0.000123443 , 0.000123436 , 0.000123435 , 
-...best phi yet:  0.000123435
-...number of consecutive bad lambda testing cycles:  1
-...number of iterations satisfying phiredstp criteria:  3
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 
+...best phi yet:  0.000164882
+...number of consecutive bad lambda testing cycles:  0
+...number of iterations satisfying phiredstp criteria:  1
 ...number of iterations since best yet mean phi:  0
 
   ---  starting solve for iteration: 3  ---  
 ...current lambda:  8.1e-07
-subset defined as a percentage of ensemble size, using 17 realizations for subset
+subset defined as a percentage of ensemble size, using 20 realizations for subset
 
 ...starting calcs for glm factor 9.72e-07
 see .log file for more details
 ...finished calcs for: 9.72e-07
 
   ---  running upgrade ensembles  ---  
-...subset idx:pe real name:  16:BASE, 18:3, 21:7, 25:12, 30:17, 34:22, 41:32, 52:45, 66:63, 72:69, 73:70, 84:87, 87:91, 90:95, 99:105, 123:134, 139:161, 
-...subset idx:oe real name:  16:BASE, 18:3, 21:7, 25:12, 30:17, 34:22, 41:32, 52:45, 66:63, 72:69, 73:70, 84:87, 87:91, 90:95, 99:105, 123:134, 139:161, 
+...subset idx:pe real name:  2:BASE, 11:73, 13:88, 35:183, 40:8, 54:24, 55:25, 61:35, 77:52, 102:85, 103:86, 108:94, 116:104, 128:119, 144:136, 145:137, 148:141, 163:158, 164:159, 188:186, 
+...subset idx:oe real name:  2:BASE, 11:73, 13:88, 35:183, 40:8, 54:24, 55:25, 61:35, 77:52, 102:85, 103:86, 108:94, 116:104, 128:119, 144:136, 145:137, 148:141, 163:158, 164:159, 188:186, 
 
   ---  evaluating upgrade ensembles  ---  
-...last mean:  0.000123435
-...last stdev:  6.67017e-05
+...last mean:  0.000164882
+...last stdev:  5.90712e-05
 
   ---  phi summary for lambda, scale fac:9.72e-07 , 0.75 ,   ---  
        phi type           mean            std            min            max
-         actual     0.00010531     7.1079e-05    4.88803e-05    0.000348567
+         actual    0.000162204    5.42382e-05    7.08495e-05    0.000226584
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  9.89e-05  6.62e-05   4.6e-05  0.000326      94.2      1.94
-gnh3       9          0  4.57e-06  5.08e-06  1.34e-06  2.16e-05      3.89      1.92
-gdmf       9          5  1.83e-06  1.21e-06  5.41e-07  4.41e-06      1.91     0.949
+gnh3       9          0  6.46e-05  9.14e-06   3.5e-05  6.86e-05        45      18.6
+gdmf       9          4  4.98e-05  4.94e-05  2.91e-06  0.000122      27.4      22.4
+gdma       9          0  4.78e-05  4.31e-05   6.2e-06  0.000127      27.5      19.8
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -737,14 +729,14 @@ gdmf       9          5  1.83e-06  1.21e-06  5.41e-07  4.41e-06      1.91     0.
 
   ---  phi summary for lambda, scale fac:9.72e-07 , 1 ,   ---  
        phi type           mean            std            min            max
-         actual     0.00010531    7.10784e-05     4.8882e-05    0.000348565
+         actual    0.000162184    5.42236e-05    7.08458e-05    0.000226575
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  9.89e-05  6.62e-05   4.6e-05  0.000326      94.2      1.94
-gnh3       9          0  4.57e-06  5.08e-06  1.34e-06  2.16e-05      3.89      1.92
-gdmf       9          5  1.83e-06  1.21e-06  5.41e-07  4.41e-06      1.91     0.949
+gnh3       9          0  6.46e-05  9.14e-06   3.5e-05  6.86e-05        45      18.6
+gdmf       9          4  4.98e-05  4.94e-05  2.91e-06  0.000122      27.4      22.4
+gdma       9          0  4.78e-05  4.31e-05  6.19e-06  0.000127      27.5      19.8
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -752,52 +744,52 @@ gdmf       9          5  1.83e-06  1.21e-06  5.41e-07  4.41e-06      1.91     0.
 
   ---  phi summary for lambda, scale fac:9.72e-07 , 1.1 ,   ---  
        phi type           mean            std            min            max
-         actual     0.00010531    7.10784e-05     4.8882e-05    0.000348565
+         actual    0.000162176     5.4218e-05    7.08449e-05    0.000226571
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  9.89e-05  6.62e-05   4.6e-05  0.000326      94.2      1.94
-gnh3       9          0  4.57e-06  5.08e-06  1.34e-06  2.16e-05      3.89      1.92
-gdmf       9          5  1.83e-06  1.21e-06  5.41e-07  4.41e-06      1.91     0.949
+gnh3       9          0  6.46e-05  9.14e-06   3.5e-05  6.86e-05        45      18.6
+gdmf       9          4  4.98e-05  4.94e-05  2.91e-06  0.000122      27.4      22.4
+gdma       9          0  4.78e-05  4.31e-05  6.19e-06  0.000127      27.5      19.8
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
 
 
-  ---  phi summary for best lambda, scale fac: 9.72e-07 , 1 ,   ---  
+  ---  phi summary for best lambda, scale fac: 9.72e-07 , 1.1 ,   ---  
        phi type           mean            std            min            max
-         actual     0.00010531    7.10784e-05     4.8882e-05    0.000348565
+         actual    0.000162176     5.4218e-05    7.08449e-05    0.000226571
 
 
 
-  ---  running remaining realizations for best lambda, scale:9.72e-07 , 1 ,   ---  
-...phi summary for entire ensemble using lambda,scale_fac 9.72e-07 , 1 , 
+  ---  running remaining realizations for best lambda, scale:9.72e-07 , 1.1 ,   ---  
+...phi summary for entire ensemble using lambda,scale_fac 9.72e-07 , 1.1 , 
        phi type           mean            std            min            max
-         actual    0.000123429    6.66933e-05     4.5951e-05    0.000348565
+         actual    0.000164775    5.90031e-05    1.37251e-05    0.000230651
 
 
-...last best mean phi * acceptable phi factor:  0.000129607
-...current best mean phi:  0.000123429
+...last best mean phi * acceptable phi factor:  0.000173126
+...current best mean phi:  0.000164775
 
   ---  updating parameter ensemble  ---  
 
   ---  updating lambda to  7.29e-07  ---  
 
   ---  EnsembleMethod iteration 3 report  ---  
-   number of active realizations:  170
-   number of model runs:           659
+   number of active realizations:  200
+   number of model runs:           920
       current obs ensemble saved to control.3.obs.csv
       current par ensemble saved to control.3.par.csv
        phi type           mean            std            min            max
-         actual    0.000123429    6.66933e-05     4.5951e-05    0.000348565
+         actual    0.000164775    5.90031e-05    1.37251e-05    0.000230651
   ---  observation group phi summary ---  
        (computed using 'actual' phi)
            (sorted by mean phi)
 group  count  nconflict      mean       std       min       max   percent       std
-gdma       9          1  0.000115  6.26e-05  4.36e-05  0.000326      93.6      3.02
-gnh3       9          0  5.81e-06  5.94e-06  1.21e-06  3.72e-05      4.49       3.1
-gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.944
+gdmf       9          2  6.14e-05  5.01e-05  1.78e-06  0.000122        35      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
     Note: 'percent' is the percentage of the actual phi for each realization.
 
 
@@ -805,9 +797,9 @@ gdmf       9          5  2.12e-06  1.23e-06  5.18e-07  5.86e-06       1.9     0.
 
    ---  parameter group change summmary  ---    
 group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
-dmfdma      1     2.451    2.141          1     0.5882         19      11.18           0
-mmanh3      1     1.071  0.07135          6      3.529          4      2.353           0
-dmamma      1     14.17    14.91          2      1.176          0          0           0
+dmamma      1   0.00414 0.004566          0          0         30         15           0
+mmanh3      1  0.0050570.0008707          0          0          0          0           0
+dmfdma      1  0.005872  0.01032          0          0          0          0           0
     Note: parameter change summary sorted according to percent at bounds.
     Note: the parameter change statistics implicitly include the effect of 
           realizations that have failed or have been dropped.
@@ -820,16 +812,952 @@ dmamma      1     14.17    14.91          2      1.176          0          0    
 ...phiredstp:  0.0005
 ...nphistp:  4
 ...nphinored (also used for consecutive bad lambda cycles):  4
-...best mean phi sequence: 0.000123443 , 0.000123436 , 0.000123435 , 0.000123429 , 
-...best phi yet:  0.000123429
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 
+...best phi yet:  0.000164775
 ...number of consecutive bad lambda testing cycles:  0
-...number of iterations satisfying phiredstp criteria:  4
-...number iterations satisfying phiredstp criteria > nphistp
+...number of iterations satisfying phiredstp criteria:  1
 ...number of iterations since best yet mean phi:  0
-...phi-based termination criteria satisfied, all done
+
+  ---  starting solve for iteration: 4  ---  
+...current lambda:  7.29e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 8.748e-07
+see .log file for more details
+...finished calcs for: 8.748e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 13:119, 22:3, 27:34, 43:75, 54:4, 61:16, 62:17, 65:20, 71:30, 73:33, 139:124, 150:139, 154:145, 157:148, 159:150, 168:163, 186:182, 192:190, 199:198, 
+...subset idx:oe real name:  0:BASE, 13:119, 22:3, 27:34, 43:75, 54:4, 61:16, 62:17, 65:20, 71:30, 73:33, 139:124, 150:139, 154:145, 157:148, 159:150, 168:163, 186:182, 192:190, 199:198, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164775
+...last stdev:  5.90031e-05
+
+  ---  phi summary for lambda, scale fac:8.748e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000167049    6.04128e-05     3.3221e-05    0.000230118
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          3  6.37e-05  5.47e-05  1.78e-06  0.000122      35.4      24.6
+gnh3       9          0  5.74e-05  1.89e-05  1.15e-05  6.86e-05      36.4      14.2
+gdma       9          0  4.59e-05  4.17e-05  6.19e-06  0.000129      28.3      20.7
+    Note: 'percent' is the percentage of the actual phi for each realization.
 
 
-pestpp-ies analysis complete...
-started at 11/25/25 17:11:03
-finished at 11/25/25 17:12:40
-took 1.61667 minutes
+
+
+  ---  phi summary for lambda, scale fac:8.748e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000167022    6.03965e-05    3.32209e-05    0.000230112
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          3  6.37e-05  5.47e-05  1.78e-06  0.000122      35.4      24.6
+gnh3       9          0  5.74e-05  1.89e-05  1.15e-05  6.86e-05      36.4      14.2
+gdma       9          0  4.59e-05  4.17e-05  6.19e-06  0.000129      28.3      20.7
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:8.748e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000167011    6.03897e-05    3.32204e-05    0.000230108
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          3  6.37e-05  5.46e-05  1.78e-06  0.000122      35.4      24.6
+gnh3       9          0  5.74e-05  1.89e-05  1.15e-05  6.86e-05      36.4      14.2
+gdma       9          0  4.59e-05  4.17e-05  6.19e-06  0.000129      28.3      20.7
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for best lambda, scale fac: 8.748e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000167011    6.03897e-05    3.32204e-05    0.000230108
+
+
+
+  ---  running remaining realizations for best lambda, scale:8.748e-07 , 1.1 ,   ---  
+...phi summary for entire ensemble using lambda,scale_fac 8.748e-07 , 1.1 , 
+       phi type           mean            std            min            max
+         actual    0.000164669    5.89348e-05     1.3725e-05    0.000230608
+
+
+...last best mean phi * acceptable phi factor:  0.000173014
+...current best mean phi:  0.000164669
+
+  ---  updating parameter ensemble  ---  
+
+  ---  updating lambda to  6.561e-07  ---  
+
+  ---  EnsembleMethod iteration 4 report  ---  
+   number of active realizations:  200
+   number of model runs:           1160
+      current obs ensemble saved to control.4.obs.csv
+      current par ensemble saved to control.4.par.csv
+       phi type           mean            std            min            max
+         actual    0.000164669    5.89348e-05     1.3725e-05    0.000230608
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          2  6.14e-05     5e-05  1.78e-06  0.000122      34.9      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+   ---  parameter group change summmary  ---    
+group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
+dmamma      1  0.005521 0.006088          0          0         30         15           0
+mmanh3      1  0.006744 0.001161          0          0          0          0           0
+dmfdma      1  0.007822  0.01375          0          0          0          0           0
+    Note: parameter change summary sorted according to percent at bounds.
+    Note: the parameter change statistics implicitly include the effect of 
+          realizations that have failed or have been dropped.
+    Note: the 'n std decr' is the number of parameters with current
+          std less 5% of their initial std.
+
+...saved parameter change summary to control.4.pcs.csv
+
+  ---  phi-based termination criteria check  ---  
+...phiredstp:  0.0005
+...nphistp:  4
+...nphinored (also used for consecutive bad lambda cycles):  4
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 0.000164669 , 
+...best phi yet:  0.000164669
+...number of consecutive bad lambda testing cycles:  0
+...number of iterations satisfying phiredstp criteria:  1
+...number of iterations since best yet mean phi:  0
+
+  ---  starting solve for iteration: 5  ---  
+...current lambda:  6.561e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 7.8732e-07
+see .log file for more details
+...finished calcs for: 7.8732e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 13:145, 23:8, 27:52, 40:6, 44:54, 47:90, 52:177, 54:2, 61:87, 63:138, 72:13, 76:19, 99:55, 119:82, 135:108, 178:170, 182:174, 192:188, 193:189, 
+...subset idx:oe real name:  0:BASE, 13:145, 23:8, 27:52, 40:6, 44:54, 47:90, 52:177, 54:2, 61:87, 63:138, 72:13, 76:19, 99:55, 119:82, 135:108, 178:170, 182:174, 192:188, 193:189, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164669
+...last stdev:  5.89348e-05
+
+  ---  phi summary for lambda, scale fac:7.8732e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000156811    6.83205e-05    2.20872e-05    0.000228663
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.63e-05  1.96e-05  2.73e-06  6.86e-05      38.1      15.1
+gdma       9          0  5.25e-05  4.73e-05  6.19e-06  0.000129      32.3      19.4
+gdmf       9          4   4.8e-05  4.52e-05  2.25e-06  0.000122      29.6      20.9
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:7.8732e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000156794     6.8308e-05    2.20868e-05    0.000228651
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.63e-05  1.96e-05  2.73e-06  6.86e-05      38.1      15.1
+gdma       9          0  5.25e-05  4.73e-05  6.19e-06  0.000129      32.3      19.4
+gdmf       9          4   4.8e-05  4.52e-05  2.25e-06  0.000122      29.6      20.9
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:7.8732e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000156787    6.83028e-05    2.20867e-05    0.000228647
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.63e-05  1.96e-05  2.73e-06  6.86e-05      38.1      15.1
+gdma       9          0  5.25e-05  4.73e-05  6.19e-06  0.000129      32.3      19.4
+gdmf       9          4   4.8e-05  4.52e-05  2.25e-06  0.000122      29.6      20.9
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for best lambda, scale fac: 7.8732e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000156787    6.83028e-05    2.20867e-05    0.000228647
+
+
+
+  ---  running remaining realizations for best lambda, scale:7.8732e-07 , 1.1 ,   ---  
+...phi summary for entire ensemble using lambda,scale_fac 7.8732e-07 , 1.1 , 
+       phi type           mean            std            min            max
+         actual    0.000164563    5.88672e-05    1.37238e-05    0.000230568
+
+
+...last best mean phi * acceptable phi factor:  0.000172902
+...current best mean phi:  0.000164563
+
+  ---  updating parameter ensemble  ---  
+
+  ---  updating lambda to  5.9049e-07  ---  
+
+  ---  EnsembleMethod iteration 5 report  ---  
+   number of active realizations:  200
+   number of model runs:           1400
+      current obs ensemble saved to control.5.obs.csv
+      current par ensemble saved to control.5.par.csv
+       phi type           mean            std            min            max
+         actual    0.000164563    5.88672e-05    1.37238e-05    0.000230568
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          2  6.13e-05  4.99e-05  1.78e-06  0.000122      34.9      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+   ---  parameter group change summmary  ---    
+group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
+dmamma      1  0.006903  0.00761          0          0         30         15           0
+mmanh3      1  0.008431 0.001452          0          0          0          0           0
+dmfdma      1  0.009767  0.01718          0          0          0          0           0
+    Note: parameter change summary sorted according to percent at bounds.
+    Note: the parameter change statistics implicitly include the effect of 
+          realizations that have failed or have been dropped.
+    Note: the 'n std decr' is the number of parameters with current
+          std less 5% of their initial std.
+
+...saved parameter change summary to control.5.pcs.csv
+
+  ---  phi-based termination criteria check  ---  
+...phiredstp:  0.0005
+...nphistp:  4
+...nphinored (also used for consecutive bad lambda cycles):  4
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 0.000164669 , 0.000164563 , 
+...best phi yet:  0.000164563
+...number of consecutive bad lambda testing cycles:  0
+...number of iterations satisfying phiredstp criteria:  1
+...number of iterations since best yet mean phi:  0
+
+  ---  starting solve for iteration: 6  ---  
+...current lambda:  5.9049e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 7.08588e-07
+see .log file for more details
+...finished calcs for: 7.08588e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 8:2, 11:13, 20:119, 22:34, 29:33, 60:79, 80:11, 86:23, 103:49, 114:65, 115:66, 119:70, 123:77, 125:83, 148:120, 158:132, 167:149, 176:164, 179:167, 
+...subset idx:oe real name:  0:BASE, 8:2, 11:13, 20:119, 22:34, 29:33, 60:79, 80:11, 86:23, 103:49, 114:65, 115:66, 119:70, 123:77, 125:83, 148:120, 158:132, 167:149, 176:164, 179:167, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164563
+...last stdev:  5.88672e-05
+
+  ---  phi summary for lambda, scale fac:7.08588e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual      0.0001396     6.6989e-05    1.37237e-05    0.000218658
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          4  5.96e-05  4.93e-05  4.97e-06  0.000122      39.3      19.4
+gnh3       9          0  5.35e-05  2.47e-05  1.34e-06  6.86e-05      38.2      18.9
+gdma       9          0  2.65e-05  2.43e-05  5.77e-06  0.000123      22.5      15.3
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:7.08588e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000139578    6.69695e-05    1.37236e-05     0.00021865
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          4  5.96e-05  4.93e-05  4.97e-06  0.000122      39.3      19.4
+gnh3       9          0  5.35e-05  2.47e-05  1.34e-06  6.86e-05      38.2      18.9
+gdma       9          0  2.65e-05  2.43e-05  5.77e-06  0.000123      22.5      15.3
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:7.08588e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual     0.00013957    6.69621e-05    1.37236e-05    0.000218646
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          4  5.95e-05  4.93e-05  4.97e-06  0.000122      39.3      19.4
+gnh3       9          0  5.35e-05  2.47e-05  1.34e-06  6.86e-05      38.2      18.9
+gdma       9          0  2.65e-05  2.43e-05  5.77e-06  0.000123      22.5      15.3
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for best lambda, scale fac: 7.08588e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual     0.00013957    6.69621e-05    1.37236e-05    0.000218646
+
+
+
+  ---  running remaining realizations for best lambda, scale:7.08588e-07 , 1.1 ,   ---  
+...phi summary for entire ensemble using lambda,scale_fac 7.08588e-07 , 1.1 , 
+       phi type           mean            std            min            max
+         actual    0.000164456    5.87998e-05    1.37236e-05    0.000230529
+
+
+...last best mean phi * acceptable phi factor:  0.000172791
+...current best mean phi:  0.000164456
+
+  ---  updating parameter ensemble  ---  
+
+  ---  updating lambda to  5.31441e-07  ---  
+
+  ---  EnsembleMethod iteration 6 report  ---  
+   number of active realizations:  200
+   number of model runs:           1640
+      current obs ensemble saved to control.6.obs.csv
+      current par ensemble saved to control.6.par.csv
+       phi type           mean            std            min            max
+         actual    0.000164456    5.87998e-05    1.37236e-05    0.000230529
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          2  6.12e-05  4.98e-05  1.78e-06  0.000122      34.9      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+   ---  parameter group change summmary  ---    
+group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
+dmamma      1  0.008286 0.009132          0          0         30         15           0
+mmanh3      1   0.01012 0.001743          0          0          0          0           0
+dmfdma      1   0.01171   0.0206          0          0          0          0           0
+    Note: parameter change summary sorted according to percent at bounds.
+    Note: the parameter change statistics implicitly include the effect of 
+          realizations that have failed or have been dropped.
+    Note: the 'n std decr' is the number of parameters with current
+          std less 5% of their initial std.
+
+...saved parameter change summary to control.6.pcs.csv
+
+  ---  phi-based termination criteria check  ---  
+...phiredstp:  0.0005
+...nphistp:  4
+...nphinored (also used for consecutive bad lambda cycles):  4
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 0.000164669 , 0.000164563 , 0.000164456 , 
+     
+...best phi yet:  0.000164456
+...number of consecutive bad lambda testing cycles:  0
+...number of iterations satisfying phiredstp criteria:  1
+...number of iterations since best yet mean phi:  0
+
+  ---  starting solve for iteration: 7  ---  
+...current lambda:  5.31441e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 6.37729e-07
+see .log file for more details
+...finished calcs for: 6.37729e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 19:167, 22:52, 28:138, 34:174, 35:188, 36:189, 62:136, 69:118, 79:26, 80:29, 94:15, 96:21, 116:56, 126:69, 140:100, 157:126, 162:133, 165:140, 187:178, 
+...subset idx:oe real name:  0:BASE, 19:167, 22:52, 28:138, 34:174, 35:188, 36:189, 62:136, 69:118, 79:26, 80:29, 94:15, 96:21, 116:56, 126:69, 140:100, 157:126, 162:133, 165:140, 187:178, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164456
+...last stdev:  5.87998e-05
+
+  ---  phi summary for lambda, scale fac:6.37729e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000180213    5.43967e-05    5.54982e-05    0.000229598
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  6.23e-05  1.54e-05  3.44e-06  6.86e-05      36.9      16.6
+gdmf       9          4  5.95e-05  4.76e-05  4.97e-06  0.000121      32.5      22.8
+gdma       9          0  5.84e-05     5e-05  6.19e-06  0.000129      30.6      21.2
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:6.37729e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual     0.00018019     5.4387e-05    5.54974e-05    0.000229591
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  6.23e-05  1.54e-05  3.44e-06  6.86e-05      36.9      16.6
+gdmf       9          4  5.94e-05  4.75e-05  4.96e-06  0.000121      32.5      22.8
+gdma       9          0  5.84e-05     5e-05  6.19e-06  0.000129      30.6      21.2
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:6.37729e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000180181    5.43834e-05    5.54974e-05    0.000229587
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  6.23e-05  1.54e-05  3.44e-06  6.86e-05      36.9      16.6
+gdmf       9          4  5.94e-05  4.75e-05  4.96e-06  0.000121      32.5      22.8
+gdma       9          0  5.84e-05     5e-05  6.19e-06  0.000129      30.6      21.2
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  best subset mean phi  (0.000180181) greater than acceptable phi : 0.000172679  ---  
+...updating realizations with reduced phi
+updating pe:oe real =BASE:BASE, current phi: new phi  =7.0799e-05:7.07829e-05
+updating pe:oe real =167:167, current phi: new phi  =0.00011723:0.000117207
+updating pe:oe real =52:52, current phi: new phi  =0.000226452:0.00022641
+updating pe:oe real =138:138, current phi: new phi  =0.000208813:0.00020861
+updating pe:oe real =174:174, current phi: new phi  =0.000142497:0.000142461
+updating pe:oe real =188:188, current phi: new phi  =0.000218497:0.000218458
+updating pe:oe real =189:189, current phi: new phi  =0.000228593:0.000228535
+updating pe:oe real =136:136, current phi: new phi  =0.000114947:0.000114929
+updating pe:oe real =118:118, current phi: new phi  =0.000208787:0.000208584
+updating pe:oe real =26:26, current phi: new phi  =0.000200016:0.000199981
+updating pe:oe real =29:29, current phi: new phi  =5.54974e-05:5.54974e-05
+updating pe:oe real =15:15, current phi: new phi  =0.000193286:0.000192996
+updating pe:oe real =21:21, current phi: new phi  =0.00022963:0.000229587
+updating pe:oe real =56:56, current phi: new phi  =0.000206882:0.000206643
+updating pe:oe real =69:69, current phi: new phi  =0.000214492:0.000214288
+updating pe:oe real =100:100, current phi: new phi  =0.000223461:0.000223418
+updating pe:oe real =126:126, current phi: new phi  =0.000128575:0.000128568
+updating pe:oe real =133:133, current phi: new phi  =0.000212397:0.000212359
+updating pe:oe real =140:140, current phi: new phi  =0.000208789:0.000208587
+updating pe:oe real =178:178, current phi: new phi  =0.000196:0.000195725
+...current best mean phi (after updating reduced-phi reals):  0.000164446
+
+  ---  partial update improved phi stats, updating lambda to  4.78297e-07  ---  
+...returning to upgrade calculations...
+
+  ---  EnsembleMethod iteration 7 report  ---  
+   number of active realizations:  200
+   number of model runs:           1700
+      current obs ensemble saved to control.7.obs.csv
+      current par ensemble saved to control.7.par.csv
+       phi type           mean            std            min            max
+         actual    0.000164446    5.87933e-05    1.37236e-05    0.000230529
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          2  6.12e-05  4.98e-05  1.78e-06  0.000122      34.9      22.2
+gnh3       9          0  5.85e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+   ---  parameter group change summmary  ---    
+group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
+dmamma      1  0.008519 0.009328          0          0         30         15           0
+mmanh3      1   0.01033 0.001781          0          0          0          0           0
+dmfdma      1   0.01184  0.02102          0          0          0          0           0
+    Note: parameter change summary sorted according to percent at bounds.
+    Note: the parameter change statistics implicitly include the effect of 
+          realizations that have failed or have been dropped.
+    Note: the 'n std decr' is the number of parameters with current
+          std less 5% of their initial std.
+
+...saved parameter change summary to control.7.pcs.csv
+
+  ---  phi-based termination criteria check  ---  
+...phiredstp:  0.0005
+...nphistp:  4
+...nphinored (also used for consecutive bad lambda cycles):  4
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 0.000164669 , 0.000164563 , 0.000164456 , 
+     0.000164446 , 
+...best phi yet:  0.000164446
+...number of consecutive bad lambda testing cycles:  1
+...number of iterations satisfying phiredstp criteria:  2
+...number of iterations since best yet mean phi:  0
+
+  ---  starting solve for iteration: 8  ---  
+...current lambda:  4.78297e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 5.73956e-07
+see .log file for more details
+...finished calcs for: 5.73956e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 23:6, 24:54, 42:20, 53:88, 63:137, 65:158, 75:105, 93:14, 110:45, 120:61, 125:68, 133:91, 145:110, 155:123, 167:144, 170:151, 180:168, 181:169, 185:175, 
+...subset idx:oe real name:  0:BASE, 23:6, 24:54, 42:20, 53:88, 63:137, 65:158, 75:105, 93:14, 110:45, 120:61, 125:68, 133:91, 145:110, 155:123, 167:144, 170:151, 180:168, 181:169, 185:175, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164446
+...last stdev:  5.87933e-05
+
+  ---  phi summary for lambda, scale fac:5.73956e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000153927    6.05912e-05    2.95184e-05    0.000229494
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.82e-05  1.88e-05  2.42e-06  6.86e-05      39.9      17.2
+gdmf       9          4  5.16e-05  4.77e-05   3.2e-06  0.000121      32.1      21.8
+gdma       9          0  4.41e-05   4.2e-05  6.19e-06  0.000129        28      19.1
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:5.73956e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000153907    6.05761e-05    2.95184e-05    0.000229486
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.82e-05  1.88e-05  2.42e-06  6.86e-05      39.9      17.2
+gdmf       9          4  5.16e-05  4.76e-05   3.2e-06  0.000121      32.1      21.8
+gdma       9          0  4.41e-05   4.2e-05  6.19e-06  0.000129        28      19.1
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:5.73956e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000153899    6.05702e-05    2.95184e-05    0.000229482
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.82e-05  1.88e-05  2.42e-06  6.86e-05      39.9      17.2
+gdmf       9          4  5.16e-05  4.76e-05   3.2e-06  0.000121      32.1      21.8
+gdma       9          0  4.41e-05   4.2e-05  6.19e-06  0.000129        28      19.1
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for best lambda, scale fac: 5.73956e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000153899    6.05702e-05    2.95184e-05    0.000229482
+
+
+
+  ---  running remaining realizations for best lambda, scale:5.73956e-07 , 1.1 ,   ---  
+...phi summary for entire ensemble using lambda,scale_fac 5.73956e-07 , 1.1 , 
+       phi type           mean            std            min            max
+         actual    0.000164341    5.87267e-05    1.37226e-05    0.000230485
+
+
+...last best mean phi * acceptable phi factor:  0.000172669
+...current best mean phi:  0.000164341
+
+  ---  updating parameter ensemble  ---  
+
+  ---  updating lambda to  4.30467e-07  ---  
+
+  ---  EnsembleMethod iteration 8 report  ---  
+   number of active realizations:  200
+   number of model runs:           1940
+      current obs ensemble saved to control.8.obs.csv
+      current par ensemble saved to control.8.par.csv
+       phi type           mean            std            min            max
+         actual    0.000164341    5.87267e-05    1.37226e-05    0.000230485
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          2  6.11e-05  4.97e-05  1.78e-06  0.000121      34.9      22.1
+gnh3       9          0  5.84e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+   ---  parameter group change summmary  ---    
+group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
+dmamma      1  0.009902  0.01085          0          0         30         15           0
+mmanh3      1   0.01202 0.002072          0          0          0          0           0
+dmfdma      1   0.01378  0.02444          0          0          0          0           0
+    Note: parameter change summary sorted according to percent at bounds.
+    Note: the parameter change statistics implicitly include the effect of 
+          realizations that have failed or have been dropped.
+    Note: the 'n std decr' is the number of parameters with current
+          std less 5% of their initial std.
+
+...saved parameter change summary to control.8.pcs.csv
+
+  ---  phi-based termination criteria check  ---  
+...phiredstp:  0.0005
+...nphistp:  4
+...nphinored (also used for consecutive bad lambda cycles):  4
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 0.000164669 , 0.000164563 , 0.000164456 , 
+     0.000164446 , 0.000164341 , 
+...best phi yet:  0.000164341
+...number of consecutive bad lambda testing cycles:  0
+...number of iterations satisfying phiredstp criteria:  1
+...number of iterations since best yet mean phi:  0
+
+  ---  starting solve for iteration: 9  ---  
+...current lambda:  4.30467e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 5.16561e-07
+see .log file for more details
+...finished calcs for: 5.16561e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 6:158, 24:33, 33:83, 50:170, 61:139, 62:148, 73:85, 86:72, 88:109, 105:15, 114:38, 127:57, 131:63, 132:64, 159:121, 173:147, 189:180, 196:193, 198:195, 
+...subset idx:oe real name:  0:BASE, 6:158, 24:33, 33:83, 50:170, 61:139, 62:148, 73:85, 86:72, 88:109, 105:15, 114:38, 127:57, 131:63, 132:64, 159:121, 173:147, 189:180, 196:193, 198:195, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164341
+...last stdev:  5.87267e-05
+
+  ---  phi summary for lambda, scale fac:5.16561e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000189805    4.66411e-05     7.0758e-05     0.00022803
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          4  7.99e-05  5.24e-05  3.82e-06  0.000121      39.3      24.3
+gnh3       9          8  6.37e-05  1.07e-05  2.75e-05  6.86e-05        36      13.6
+gdma       9          0  4.62e-05  4.33e-05  6.19e-06  0.000129      24.7      21.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:5.16561e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000189772    4.66299e-05    7.07541e-05    0.000228017
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          4  7.98e-05  5.24e-05  3.82e-06  0.000121      39.3      24.3
+gnh3       9          8  6.37e-05  1.07e-05  2.75e-05  6.86e-05        36      13.6
+gdma       9          0  4.62e-05  4.33e-05  6.19e-06  0.000129      24.7      21.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:5.16561e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000189759    4.66252e-05    7.07532e-05     0.00022801
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          4  7.98e-05  5.24e-05  3.82e-06  0.000121      39.3      24.3
+gnh3       9          8  6.37e-05  1.07e-05  2.75e-05  6.86e-05        36      13.6
+gdma       9          0  4.62e-05  4.33e-05  6.19e-06  0.000129      24.7      21.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  best subset mean phi  (0.000189759) greater than acceptable phi : 0.000172558  ---  
+...updating realizations with reduced phi
+updating pe:oe real =BASE:BASE, current phi: new phi  =7.07683e-05:7.07532e-05
+updating pe:oe real =158:158, current phi: new phi  =0.00021647:0.000216428
+updating pe:oe real =33:33, current phi: new phi  =0.00020861:0.000208406
+updating pe:oe real =83:83, current phi: new phi  =0.00020861:0.000208406
+updating pe:oe real =170:170, current phi: new phi  =0.000214657:0.000214454
+updating pe:oe real =139:139, current phi: new phi  =0.00020861:0.000208406
+updating pe:oe real =148:148, current phi: new phi  =0.000109848:0.000109826
+updating pe:oe real =85:85, current phi: new phi  =0.000214212:0.000214004
+updating pe:oe real =72:72, current phi: new phi  =0.000204416:0.000204185
+updating pe:oe real =109:109, current phi: new phi  =0.000228072:0.00022801
+updating pe:oe real =15:15, current phi: new phi  =0.000192705:0.000192416
+updating pe:oe real =38:38, current phi: new phi  =0.000220635:0.000220591
+updating pe:oe real =57:57, current phi: new phi  =0.000195252:0.000194973
+updating pe:oe real =63:63, current phi: new phi  =0.00020861:0.000208406
+updating pe:oe real =64:64, current phi: new phi  =8.00259e-05:8.00111e-05
+updating pe:oe real =121:121, current phi: new phi  =0.000212203:0.000212165
+updating pe:oe real =147:147, current phi: new phi  =0.000214928:0.000214722
+updating pe:oe real =180:180, current phi: new phi  =0.000165052:0.000165024
+updating pe:oe real =193:193, current phi: new phi  =0.00020861:0.000208406
+updating pe:oe real =195:195, current phi: new phi  =0.00021579:0.000215593
+...current best mean phi (after updating reduced-phi reals):  0.000164327
+
+  ---  partial update improved phi stats, updating lambda to  3.8742e-07  ---  
+...returning to upgrade calculations...
+
+  ---  EnsembleMethod iteration 9 report  ---  
+   number of active realizations:  200
+   number of model runs:           2000
+      current obs ensemble saved to control.9.obs.csv
+      current par ensemble saved to control.9.par.csv
+       phi type           mean            std            min            max
+         actual    0.000164327    5.87165e-05    1.37226e-05    0.000230485
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          2  6.11e-05  4.97e-05  1.78e-06  0.000121      34.9      22.1
+gnh3       9          0  5.84e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.48e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+   ---  parameter group change summmary  ---    
+group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
+dmamma      1   0.01005    0.011          0          0         30         15           0
+mmanh3      1   0.01222 0.002105          0          0          0          0           0
+dmfdma      1   0.01415  0.02486          0          0          0          0           0
+    Note: parameter change summary sorted according to percent at bounds.
+    Note: the parameter change statistics implicitly include the effect of 
+          realizations that have failed or have been dropped.
+    Note: the 'n std decr' is the number of parameters with current
+          std less 5% of their initial std.
+
+...saved parameter change summary to control.9.pcs.csv
+
+  ---  phi-based termination criteria check  ---  
+...phiredstp:  0.0005
+...nphistp:  4
+...nphinored (also used for consecutive bad lambda cycles):  4
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 0.000164669 , 0.000164563 , 0.000164456 , 
+     0.000164446 , 0.000164341 , 0.000164327 , 
+...best phi yet:  0.000164327
+...number of consecutive bad lambda testing cycles:  1
+...number of iterations satisfying phiredstp criteria:  2
+...number of iterations since best yet mean phi:  0
+
+  ---  starting solve for iteration: 10  ---  
+...current lambda:  3.8742e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 4.64905e-07
+see .log file for more details
+...finished calcs for: 4.64905e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 3:20, 14:123, 27:23, 47:55, 68:73, 78:141, 89:128, 108:22, 115:39, 141:92, 144:96, 147:100, 172:146, 173:147, 183:171, 185:173, 188:179, 190:181, 194:191, 
+...subset idx:oe real name:  0:BASE, 3:20, 14:123, 27:23, 47:55, 68:73, 78:141, 89:128, 108:22, 115:39, 141:92, 144:96, 147:100, 172:146, 173:147, 183:171, 185:173, 188:179, 190:181, 194:191, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164327
+...last stdev:  5.87165e-05
+
+  ---  phi summary for lambda, scale fac:4.64905e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000150815    6.51221e-05    2.04733e-05     0.00022855
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.58e-05   2.1e-05  1.34e-06  6.86e-05      38.5        19
+gdma       9          0  4.98e-05  4.33e-05  6.19e-06  0.000128      33.1      20.2
+gdmf       9          3  4.52e-05  4.59e-05  3.04e-06  0.000121      28.5      21.3
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:4.64905e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000150797    6.51092e-05    2.04725e-05     0.00022854
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.58e-05   2.1e-05  1.34e-06  6.86e-05      38.5        19
+gdma       9          0  4.98e-05  4.33e-05  6.19e-06  0.000128      33.1      20.2
+gdmf       9          3  4.52e-05  4.59e-05  3.04e-06  0.000121      28.5      21.3
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:4.64905e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual     0.00015079    6.51042e-05    2.04724e-05    0.000228536
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gnh3       9          0  5.58e-05   2.1e-05  1.34e-06  6.86e-05      38.5        19
+gdma       9          0  4.98e-05  4.33e-05  6.19e-06  0.000128      33.1      20.2
+gdmf       9          3  4.52e-05  4.59e-05  3.04e-06  0.000121      28.5      21.3
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for best lambda, scale fac: 4.64905e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual     0.00015079    6.51042e-05    2.04724e-05    0.000228536
+
+
+
+  ---  running remaining realizations for best lambda, scale:4.64905e-07 , 1.1 ,   ---  
+...phi summary for entire ensemble using lambda,scale_fac 4.64905e-07 , 1.1 , 
+       phi type           mean            std            min            max
+         actual    0.000164221    5.86501e-05    1.37224e-05    0.000230447
+
+
+...last best mean phi * acceptable phi factor:  0.000172543
+...current best mean phi:  0.000164221
+
+  ---  updating parameter ensemble  ---  
+
+  ---  updating lambda to  3.48678e-07  ---  
+
+  ---  EnsembleMethod iteration 10 report  ---  
+   number of active realizations:  200
+   number of model runs:           2240
+      current obs ensemble saved to control.10.obs.csv
+      current par ensemble saved to control.10.par.csv
+       phi type           mean            std            min            max
+         actual    0.000164221    5.86501e-05    1.37224e-05    0.000230447
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          2  6.11e-05  4.96e-05  1.78e-06  0.000121      34.9      22.1
+gnh3       9          0  5.84e-05  1.83e-05  1.34e-06  6.86e-05      37.3      15.4
+gdma       9          0  4.47e-05  4.07e-05  4.05e-06  0.000129      27.7      19.4
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+   ---  parameter group change summmary  ---    
+group   count  mean chg  std chg  n at ubnd  % at ubnd  n at lbnd  % at lbnd  n std decr
+dmamma      1   0.01144  0.01252          0          0         30         15           0
+mmanh3      1    0.0139 0.002397          0          0          0          0           0
+dmfdma      1   0.01608  0.02828          0          0          0          0           0
+    Note: parameter change summary sorted according to percent at bounds.
+    Note: the parameter change statistics implicitly include the effect of 
+          realizations that have failed or have been dropped.
+    Note: the 'n std decr' is the number of parameters with current
+          std less 5% of their initial std.
+
+...saved parameter change summary to control.10.pcs.csv
+
+  ---  phi-based termination criteria check  ---  
+...phiredstp:  0.0005
+...nphistp:  4
+...nphinored (also used for consecutive bad lambda cycles):  4
+...best mean phi sequence: 0.000165095 , 0.000164989 , 0.000164882 , 0.000164775 , 0.000164669 , 0.000164563 , 0.000164456 , 
+     0.000164446 , 0.000164341 , 0.000164327 , 0.000164221 , 
+...best phi yet:  0.000164221
+...number of consecutive bad lambda testing cycles:  0
+...number of iterations satisfying phiredstp criteria:  1
+...number of iterations since best yet mean phi:  0
+
+  ---  starting solve for iteration: 11  ---  
+...current lambda:  3.48678e-07
+subset defined as a percentage of ensemble size, using 20 realizations for subset
+
+...starting calcs for glm factor 4.18414e-07
+see .log file for more details
+...finished calcs for: 4.18414e-07
+
+  ---  running upgrade ensembles  ---  
+...subset idx:pe real name:  0:BASE, 23:137, 76:139, 87:85, 93:186, 97:12, 106:58, 110:142, 113:197, 134:50, 146:74, 149:84, 152:95, 153:98, 159:111, 164:116, 165:117, 166:121, 173:131, 178:143, 
+...subset idx:oe real name:  0:BASE, 23:137, 76:139, 87:85, 93:186, 97:12, 106:58, 110:142, 113:197, 134:50, 146:74, 149:84, 152:95, 153:98, 159:111, 164:116, 165:117, 166:121, 173:131, 178:143, 
+
+  ---  evaluating upgrade ensembles  ---  
+...last mean:  0.000164221
+...last stdev:  5.86501e-05
+
+  ---  phi summary for lambda, scale fac:4.18414e-07 , 0.75 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000171894     5.9213e-05    4.70229e-05    0.000229801
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          3  7.52e-05  5.23e-05  4.96e-06  0.000121      40.8      22.7
+gnh3       9          0  6.01e-05  1.79e-05  1.64e-06  6.86e-05        37      17.1
+gdma       9          0  3.65e-05  3.77e-05  6.19e-06  0.000129      22.1      18.7
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:4.18414e-07 , 1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000171864    5.91964e-05    4.70222e-05    0.000229794
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          3  7.52e-05  5.23e-05  4.96e-06  0.000121      40.8      22.7
+gnh3       9          0  6.01e-05  1.79e-05  1.64e-06  6.86e-05      37.1      17.1
+gdma       9          0  3.65e-05  3.77e-05  6.19e-06  0.000129      22.1      18.7
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for lambda, scale fac:4.18414e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000171852    5.91896e-05    4.70222e-05     0.00022979
+  ---  observation group phi summary ---  
+       (computed using 'actual' phi)
+           (sorted by mean phi)
+group  count  nconflict      mean       std       min       max   percent       std
+gdmf       9          3  7.52e-05  5.23e-05  4.96e-06  0.000121      40.8      22.6
+gnh3       9          0  6.01e-05  1.79e-05  1.64e-06  6.86e-05      37.1      17.1
+gdma       9          0  3.65e-05  3.77e-05  6.19e-06  0.000129      22.1      18.7
+    Note: 'percent' is the percentage of the actual phi for each realization.
+
+
+
+
+  ---  phi summary for best lambda, scale fac: 4.18414e-07 , 1.1 ,   ---  
+       phi type           mean            std            min            max
+         actual    0.000171852    5.91896e-05    4.70222e-05     0.00022979
+
+
+
+  ---  running remaining realizations for best lambda, scale:4.18414e-07 , 1.1 ,   ---  

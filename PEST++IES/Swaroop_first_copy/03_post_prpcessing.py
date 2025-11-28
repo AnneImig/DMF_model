@@ -352,7 +352,7 @@ titles = ["DMF", "DMA", "NH₃"]
 all_col_sets = [dmf_cols, dma_cols, nh3_cols]
 
 # Your requested colors
-colors = ["black", "red", "yellow"]
+colors = ["black", "red", "orange"]
 
 # Column names in measured dataset
 measured_names = ["DMF", "DMA", "NH3"]
@@ -371,7 +371,7 @@ for title, col_set, color, meas_name in zip(titles, all_col_sets, colors, measur
     mean, lower, upper = compute_confidence_interval(ensemble_data)
 
     # Plot mean + CI
-    ax.plot(time, mean, color=color, linewidth=2, label=f"{title} Mean")
+    ax.plot(time, mean, color=color, linewidth=2, label=f"{title} mean")
     ax.fill_between(time, lower, upper, color=color, alpha=0.25, label=f"{title} 95% CI")
 
     # Plot measured values if available
@@ -381,20 +381,35 @@ for title, col_set, color, meas_name in zip(titles, all_col_sets, colors, measur
             measured[meas_name],
             color=color,
             s=40,
-            edgecolor="black",
             zorder=5,
-            label=f"{title} Measured"
+            label=f"{title} measured"
         )
 
 # Final formatting
-ax.set_title("DMF, DMA, NH₃ – Mean + 95% CI with Measured Data")
-ax.set_xlabel("Time")
-ax.set_ylabel("Concentration (mol/L)")
+#ax.set_title("DMF, DMA, NH₃ – Mean + 95% CI with Measured Data")
+ax.set_xlabel("Time", fontsize=14)
+ax.set_ylabel("Concentration (mol/L)", fontsize=14)
 ax.grid(True, alpha=0.2)
 
-# Place legend outside plot (right side)
-ax.legend(bbox_to_anchor=(1.02, 1), loc="upper left")
+# After plotting everything
+handles, labels = ax.get_legend_handles_labels()
+
+# Reorder so that NH3 labels are last
+# NH3 labels contain "NH3"
+nh3_indices = [i for i, lbl in enumerate(labels) if "NH3" in lbl]
+other_indices = [i for i in range(len(labels)) if i not in nh3_indices]
+new_order = other_indices + nh3_indices
+
+ax.legend(
+    [handles[i] for i in new_order],
+    [labels[i] for i in new_order],
+    loc="upper center",
+    bbox_to_anchor=(0.5, -0.20),
+    ncol=3,
+    fontsize=16,
+    framealpha=0.9,
+    facecolor="white"
+)
 
 plt.tight_layout()
 plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_mean_CI_all_species.png"), dpi=300)
-plt.show()

@@ -46,18 +46,18 @@ KINETICS
 Dmf_Dma
     -formula  Dmf -1 Dma 1 H20 2 Form 1  #H+ 3 
     # K1 = mol / h  
-     -parms   1.673374  
+     -parms   0.012041  
      -steps   0 24*1      #24h 
 Dma_Mma
     -formula Dma  -1 Mma  1 Formaldehyde 1
     # K2 = mol / day 
-     -parms   5.84e-04  
+     -parms   5.00e-04  
 
 Mma_Ammonia
     -formula  Mma  -1 Formaldehyde 1 Amm 1
     #1 H+ 1
     # K2 = mol / day 
-     -parms   3.05e-04  
+     -parms   7.12e-04  
 
 
 RATES

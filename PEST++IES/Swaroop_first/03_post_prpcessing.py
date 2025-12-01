@@ -108,7 +108,27 @@ for j, param in enumerate(parameters):
 
 plt.tight_layout()
 plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_parameter_density_ensembles.png"), dpi=300)
+# Combine all ensembles
+all_data = pd.concat([ensembles[e][parameters] for e in ensembles], ignore_index=True)
 
+# Optional: LaTeX labels
+latex_params = [r"$k_{1}$", r"$k_{2}$", r"$k_{3}$"]
+
+plt.figure(figsize=(10, 6))
+
+for p, label in zip(parameters, latex_params):
+    sns.kdeplot(all_data[p].dropna(), label=label, fill=True, alpha=0.5)
+
+plt.xlabel("Rate [1/d]", fontsize=14)
+plt.ylabel("Density", fontsize=14)
+plt.xticks(fontsize=12)
+plt.xlim(-0.5,5)
+plt.yticks(fontsize=12)
+plt.legend(fontsize=12)
+#plt.title("KDE of Parameter Values (All Ensembles Combined)", fontsize=14)
+plt.tight_layout()
+
+plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_parameter_density_all_ensembles.png"), dpi=300)
 # ----------------- Statistics for parameter -----------------
 # ---- MEAN ± STD analysis for each parameter across ensembles ----
 parameters = ["dmfdma", "dmamma", "mmanh3"]
@@ -199,6 +219,24 @@ plt.legend(fontsize=14)
 plt.tight_layout()
 plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_parameter_histogram_all_in_one.png"), dpi=300)
 
+
+# --- HISTOGRAMS PER PARAMETER (3 subplots in one row) ---
+fig, axes = plt.subplots(1, 3, figsize=(18, 5), sharey=True)
+
+for ax, p, label in zip(axes, parameters, latex_params):
+    sns.histplot(all_data[p].dropna(), 
+                 kde=False, 
+                 ax=ax, 
+                 stat="density", 
+                 alpha=0.7, 
+                 color="skyblue")
+    ax.set_title(f"{label}", fontsize=14)
+    ax.set_xlabel("Value", fontsize=12)
+    ax.set_ylabel("Density", fontsize=12)
+    ax.tick_params(axis="both", labelsize=12)
+
+plt.tight_layout()
+plt.savefig(os.path.join(script_dir, "R3_post_processing/R3_parameter_histograms_separate.png"), dpi=300)
 
 # ---------------- CONVERT MEASURED VALUES TO MOL/L -----------------
 if ZHOU==True: #mg/L  
@@ -314,7 +352,7 @@ fig, axes = plt.subplots(1, len(titles), figsize=(6*len(titles), 5))
 if len(titles) == 1:
     axes = [axes]
 
-for ax, col_set, title, meas_name in zip(axes, all_col_sets, titles, measured_names):
+for ax, col_set, title, meas_name in zip(axes, all_col_sets, titles, measure_names):
     ensemble_data = []
     for df in ensembles_obs.values():
         for _, row in df.iterrows():
